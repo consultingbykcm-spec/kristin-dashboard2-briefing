@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kristin's Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F5F0E8;--warm-white:#FDFAF5;--charcoal:#1E1E1A;--warm-gray:#8A8578;--light-border:#E2DAD0;--accent-gold:#B8860B;--accent-teal:#2C6E6A;--accent-rose:#8B3A52;--accent-navy:#1C3557;--accent-sage:#4A6741;--card-bg:#FFFFFF;--shadow:0 1px 3px rgba(30,30,26,0.06),0 4px 16px rgba(30,30,26,0.04);--shadow-hover:0 4px 12px rgba(30,30,26,0.1),0 12px 32px rgba(30,30,26,0.08)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;font-size:14px;line-height:1.6}
+.page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
+.greeting{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--warm-gray);letter-spacing:0.03em}
+.name{font-family:'Playfair Display',serif;font-size:36px;font-weight:600;color:var(--charcoal);line-height:1.1;letter-spacing:-0.02em}
+.tagline{font-size:12px;color:var(--warm-gray);margin-top:4px;letter-spacing:0.04em;text-transform:uppercase}
+.clock{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--charcoal);line-height:1;text-align:right}
+.date{font-size:12px;color:var(--warm-gray);margin-top:4px;text-align:right}
+.weather-bar{background:var(--card-bg);border:1px solid var(--light-border);border-radius:14px;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;box-shadow:var(--shadow)}
+.weather-current{display:flex;align-items:center;gap:12px}
+.weather-icon{font-size:28px}
+.weather-temp{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:var(--charcoal)}
+.weather-desc{font-size:12px;color:var(--warm-gray)}
+.forecast{display:flex;gap:6px}
+.fc-day{background:var(--cream);border-radius:8px;padding:5px 8px;text-align:center;min-width:46px}
+.fc-d{font-size:10px;color:var(--warm-gray);text-transform:uppercase;letter-spacing:0.04em}
+.fc-h{font-size:13px;font-weight:500;color:var(--charcoal);margin-top:1px}
+.fc-r{font-size:10px;color:var(--accent-teal)}
+.weather-refresh{font-size:11px;color:var(--warm-gray);cursor:pointer;padding:4px 10px;border:1px solid var(--light-border);border-radius:20px;background:none;font-family:inherit;transition:all 0.2s}
+.weather-refresh:hover{background:var(--cream)}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.pill{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.pill-work{background:#FAEEDA;color:#633806}
+.pill-school{background:#E6F1FB;color:#0C447C}
+.pill-book{background:#E1F5EE;color:#085041}
+.pill-law{background:#FBEAF0;color:#72243E}
+.pill-warn{background:#FFF3CD;color:#664D03}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.grid-wide{grid-column:1/-1}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.grid-wide{grid-column:1}}
+.card{background:var(--card-bg);border:1px solid var(--light-border);border-radius:14px;padding:1.25rem 1.5rem;box-shadow:var(--shadow);transition:box-shadow 0.25s}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card.accent-teal{border-top:3px solid var(--accent-teal)}
+.card.accent-rose{border-top:3px solid var(--accent-rose)}
+.card.accent-gold{border-top:3px solid var(--accent-gold)}
+.card.accent-navy{border-top:3px solid var(--accent-navy)}
+.card.accent-sage{border-top:3px solid var(--accent-sage)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.card-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--charcoal);display:flex;align-items:center;gap:8px}
+.card-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.04em;font-family:'DM Sans',sans-serif}
+.badge-teal{background:#E8F4F3;color:var(--accent-teal)}
+.badge-rose{background:#F4ECF0;color:var(--accent-rose)}
+.badge-gold{background:#FDF5E0;color:var(--accent-gold)}
+.badge-navy{background:#E8EDF5;color:var(--accent-navy)}
+.badge-sage{background:#EDF2EC;color:var(--accent-sage)}
+.badge-warn{background:#FFF3CD;color:#664D03}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--cream)}
+.task-item:last-child{border-bottom:none}
+.chk{width:16px;height:16px;border:1.5px solid var(--light-border);border-radius:4px;flex-shrink:0;cursor:pointer;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.chk:hover{border-color:var(--accent-teal)}
+.chk.done{background:var(--accent-teal);border-color:var(--accent-teal)}
+.chk.done::after{content:'';width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px);display:block}
+.task-body{flex:1}
+.task-text{font-size:13px;color:var(--charcoal);line-height:1.45}
+.task-text.done{color:var(--warm-gray);text-decoration:line-through}
+.task-sub{font-size:11px;color:var(--warm-gray);margin-top:1px}
+.sched-item{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--cream);align-items:baseline}
+.sched-item:last-child{border-bottom:none}
+.sched-time{font-size:11px;color:var(--warm-gray);width:64px;flex-shrink:0;font-weight:500;text-transform:uppercase;letter-spacing:0.03em}
+.sched-label{font-size:13px;color:var(--charcoal);flex:1}
+.sched-tag{font-size:10px;color:var(--warm-gray);white-space:nowrap}
+.rem-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--cream)}
+.rem-item:last-child{border-bottom:none}
+.rem-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.rem-text{font-size:13px;color:var(--charcoal);flex:1}
+.rem-del{background:none;border:none;font-size:14px;color:var(--light-border);cursor:pointer;padding:0;line-height:1;transition:color 0.15s}
+.rem-del:hover{color:var(--accent-rose)}
+.project-item{padding:10px 0;border-bottom:1px solid var(--cream)}
+.project-item:last-child{border-bottom:none}
+.project-name{font-size:13px;font-weight:500;color:var(--charcoal);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.project-next{font-size:11px;color:var(--warm-gray);margin-top:3px}
+.project-progress{margin-top:6px;height:3px;background:var(--cream);border-radius:2px;overflow:hidden}
+.project-bar{height:100%;border-radius:2px;transition:width 0.6s ease}
+/* COURSE SECTION */
+.course-card{margin-bottom:0}
+.course-tabs{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap}
+.course-tab{font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--light-border);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--warm-gray);transition:all 0.15s;white-space:nowrap}
+.course-tab.active{background:var(--charcoal);color:#fff;border-color:var(--charcoal)}
+.course-panel{display:none}
+.course-panel.active{display:block}
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.week-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--charcoal)}
+.week-dates{font-size:11px;color:var(--warm-gray)}
+.week-topic{font-size:12px;color:var(--accent-navy);font-style:italic;margin-bottom:10px}
+.week-btns{display:flex;gap:6px}
+.week-btn{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--light-border);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--warm-gray);transition:all 0.15s}
+.week-btn:hover{background:var(--cream);color:var(--charcoal)}
+.week-btn:disabled{opacity:0.35;cursor:not-allowed}
+.readings-section{margin-bottom:10px}
+.readings-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:5px}
+.reading-item{font-size:12px;color:var(--charcoal);padding:2px 0;padding-left:10px;border-left:2px solid var(--light-border);margin-bottom:3px;line-height:1.4}
+.assign-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:5px}
+.ai-warning{background:#FFF3CD;border:1px solid #FFECB5;border-radius:8px;padding:8px 12px;font-size:11px;color:#664D03;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.course-add{display:flex;gap:6px;margin-top:8px}
+.course-add input{flex:1;font-size:12px}
+.course-add button{font-size:12px}
+.add-row{display:flex;gap:8px;margin-top:10px}
+.add-row input{flex:1}
+input[type=text],select,textarea{font-family:'DM Sans',sans-serif;font-size:13px;background:var(--cream);color:var(--charcoal);border:1px solid var(--light-border);border-radius:8px;padding:7px 10px;outline:none;transition:border-color 0.2s}
+input[type=text]:focus,select:focus,textarea:focus{border-color:var(--accent-teal)}
+button{font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 14px;border-radius:8px;border:1px solid var(--light-border);background:var(--card-bg);color:var(--charcoal);cursor:pointer;transition:all 0.15s}
+button:hover{background:var(--cream)}
+.notes-area{width:100%;min-height:60px;resize:vertical}
+.gen-wrap{margin-top:1.5rem;display:flex;flex-direction:column;gap:8px}
+.gen-btn{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--charcoal);color:var(--cream);border:none;border-radius:10px;cursor:pointer;letter-spacing:0.02em;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.gen-btn:hover{background:#333;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.gen-btn:disabled{opacity:0.6;transform:none;cursor:not-allowed}
+.gen-status{font-size:12px;color:var(--warm-gray);text-align:center;min-height:16px}
+.notion-link{font-size:12px;color:var(--accent-teal);text-align:center;text-decoration:none}
+.notion-link:hover{text-decoration:underline}
+.progress{height:2px;background:var(--light-border);border-radius:1px;overflow:hidden;display:none;margin-top:4px}
+.progress-bar{height:100%;width:0%;background:var(--accent-teal);transition:width 0.4s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:fadeUp 0.4s ease both}
+.card:nth-child(1){animation-delay:0.05s}.card:nth-child(2){animation-delay:0.1s}.card:nth-child(3){animation-delay:0.15s}.card:nth-child(4){animation-delay:0.2s}.card:nth-child(5){animation-delay:0.25s}.card:nth-child(6){animation-delay:0.3s}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="header">
+  <div>
+    <div class="greeting">Good morning,</div>
+    <div class="name">Kristin</div>
+    <div class="tagline">Law Student · Writer · Advocate</div>
+  </div>
+  <div>
+    <div class="clock" id="clock">--:--</div>
+    <div class="date" id="dateline"></div>
+  </div>
+</header>
+
+<div class="weather-bar">
+  <div class="weather-current">
+    <div class="weather-icon" id="wIcon">⛅</div>
+    <div>
+      <div class="weather-temp" id="wTemp">--°F</div>
+      <div class="weather-desc" id="wDesc">Los Angeles, CA</div>
+      <div class="weather-desc" id="wHiRain"></div>
+    </div>
+  </div>
+  <div class="forecast" id="forecast"></div>
+  <button class="weather-refresh" id="wRefresh">↻ Refresh</button>
+</div>
+
+<div class="meta-row">
+  <span class="pill pill-warn">⚠️ Week 1 starts Monday May 4</span>
+  <span class="pill pill-law">Pro bono — Tue meeting</span>
+  <span class="pill pill-work">Pondel 1–4pm daily</span>
+  <span class="pill pill-book">Ferlina book in progress</span>
+</div>
+
+<div class="grid">
+
+<div class="card accent-navy">
+  <div class="card-header">
+    <div class="card-title">📅 Today's Schedule</div>
+    <span class="card-badge badge-navy" id="todayDay"></span>
+  </div>
+  <div id="schedList"></div>
+</div>
+
+<div class="card accent-rose">
+  <div class="card-header"><div class="card-title">🔔 Reminders</div></div>
+  <div id="remList"></div>
+  <div class="add-row">
+    <input type="text" id="remIn" placeholder="Add reminder..."/>
+    <button id="remAdd">Add</button>
+  </div>
+</div>
+
+<div class="card accent-teal grid-wide">
+  <div class="card-header">
+    <div class="card-title">🗂 Active Projects</div>
+    <span class="card-badge badge-teal">4 in progress</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 2rem">
+    <div class="project-item">
+      <div class="project-name">⚖️ Pro Bono Case <span class="card-badge badge-rose">Tue meeting</span></div>
+      <div class="project-next">Prepare materials · Review action items</div>
+      <div class="project-progress"><div class="project-bar" style="width:35%;background:var(--accent-rose)"></div></div>
+    </div>
+    <div class="project-item">
+      <div class="project-name">📚 Directed Study</div>
+      <div class="project-next">Meet w/ Dean re: benchmarks · Research new Q</div>
+      <div class="project-progress"><div class="project-bar" style="width:50%;background:var(--accent-navy)"></div></div>
+    </div>
+    <div class="project-item">
+      <div class="project-name">📖 Ferlina Children's Book</div>
+      <div class="project-next">Printing · ISBN · Audiobook</div>
+      <div class="project-progress"><div class="project-bar" style="width:60%;background:var(--accent-sage)"></div></div>
+    </div>
+    <div class="project-item">
+      <div class="project-name">💼 Pondel Law Firm</div>
+      <div class="project-next">Daily 1–4pm · Part-time</div>
+      <div class="project-progress"><div class="project-bar" style="width:80%;background:var(--accent-gold)"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card accent-gold">
+  <div class="card-header">
+    <div class="card-title">✅ Action Items</div>
+    <span class="card-badge badge-gold" id="taskCount"></span>
+  </div>
+  <div id="taskList"></div>
+</div>
+
+<!-- COURSES CARD -->
+<div class="card accent-sage">
+  <div class="card-header">
+    <div class="card-title">🎓 Courses</div>
+    <span class="card-badge badge-sage">Summer 2026 · 3 classes</span>
+  </div>
+  <div class="course-tabs">
+    <button class="course-tab active" data-tab="ba">Business Assoc.</button>
+    <button class="course-tab" data-tab="pr">Prof. Responsibility</button>
+    <button class="course-tab" data-tab="ls">Law & Storytelling</button>
+  </div>
+
+  <!-- BA -->
+  <div class="course-panel active" id="panel-ba">
+    <div style="font-size:11px;color:var(--warm-gray);margin-bottom:8px">Prof. Aaron Tenzer · 3 units · Final exam only (midterm in Wk 6 doesn't count)</div>
+    <div class="week-nav">
+      <div>
+        <div class="week-label" id="ba-week-label">Week 1</div>
+        <div class="week-dates" id="ba-week-dates"></div>
+      </div>
+      <div class="week-btns">
+        <button class="week-btn" id="ba-prev">← Prev</button>
+        <button class="week-btn" id="ba-next">Next →</button>
+      </div>
+    </div>
+    <div class="week-topic" id="ba-topic"></div>
+    <div class="readings-section">
+      <div class="readings-label">📖 Readings</div>
+      <div id="ba-readings"></div>
+    </div>
+    <div class="assign-label">📝 Assignments</div>
+    <div id="ba-assigns"></div>
+    <div class="course-add">
+      <input type="text" id="ba-add-in" placeholder="Add note for this week..."/>
+      <button id="ba-add-btn">Add</button>
+    </div>
+  </div>
+
+  <!-- PR -->
+  <div class="course-panel" id="panel-pr">
+    <div style="font-size:11px;color:var(--warm-gray);margin-bottom:6px">Associate Dean April Vincent · 3 units · Midterm 15% + Final 85%</div>
+    <div class="ai-warning">🚫 <strong>Zero AI policy</strong> — all work must be entirely your own. No AI assistance permitted.</div>
+    <div class="week-nav">
+      <div>
+        <div class="week-label" id="pr-week-label">Week 1</div>
+        <div class="week-dates" id="pr-week-dates"></div>
+      </div>
+      <div class="week-btns">
+        <button class="week-btn" id="pr-prev">← Prev</button>
+        <button class="week-btn" id="pr-next">Next →</button>
+      </div>
+    </div>
+    <div class="week-topic" id="pr-topic"></div>
+    <div class="readings-section">
+      <div class="readings-label">📖 Readings</div>
+      <div id="pr-readings"></div>
+    </div>
+    <div class="assign-label">📝 Assignments</div>
+    <div id="pr-assigns"></div>
+    <div class="course-add">
+      <input type="text" id="pr-add-in" placeholder="Add note for this week..."/>
+      <button id="pr-add-btn">Add</button>
+    </div>
+  </div>
+
+  <!-- LAW & STORYTELLING -->
+  <div class="course-panel" id="panel-ls">
+    <div style="font-size:11px;color:var(--warm-gray);margin-bottom:8px">Prof. Eric Lane · 2 units · Santa Barbara College of Law · Starts May 20</div>
+    <div style="font-size:13px;color:var(--charcoal);margin-bottom:10px">Wednesdays 6:30–9:30pm</div>
+    <div class="readings-label">📅 Class Dates</div>
+    <div id="ls-dates"></div>
+    <div style="margin-top:12px" class="assign-label">📝 Notes & Assignments</div>
+    <div id="ls-assigns"></div>
+    <div class="course-add" style="margin-top:8px">
+      <input type="text" id="ls-add-in" placeholder="Add reading or assignment..."/>
+      <button id="ls-add-btn">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="card grid-wide" style="border-top:3px solid var(--charcoal)">
+  <div class="card-header"><div class="card-title">📝 Daily Notes</div></div>
+  <textarea class="notes-area" id="notes" placeholder="Thoughts, intentions, follow-ups for today..."></textarea>
+  <div class="gen-wrap">
+    <div class="progress" id="prog"><div class="progress-bar" id="progbar"></div></div>
+    <button class="gen-btn" id="genBtn">Generate Morning Brief &amp; Push to Notion</button>
+    <div class="gen-status" id="genStatus"></div>
+    <a class="notion-link" href="https://app.notion.com/p/351e7566e74b81d08148de26c8504c7b" target="_blank">Open Morning Brief in Notion ↗</a>
+  </div>
+</div>
+
+</div><!-- end grid -->
+</div><!-- end page -->
+
+<script>
+const WED_DATES=['2026-05-20','2026-05-27','2026-06-03','2026-06-10','2026-06-17','2026-06-24','2026-07-01','2026-07-08','2026-07-15','2026-07-22'];
+const LS_DATES=['May 20','May 27','Jun 3','Jun 10','Jun 17','Jun 24','Jul 1','Jul 8','Jul 15','Jul 22'];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const CONDS={sunny:'☀️',clear:'☀️',partly_cloudy:'⛅','partly cloudy':'⛅','mostly cloudy':'🌥️',cloudy:'☁️',overcast:'☁️',rain:'🌧️',drizzle:'🌦️',thunderstorm:'⛈️',fog:'🌫️',snow:'❄️'};
+
+const BA_DATA=[{week:1,dates:'May 4–10',topic:'Overview of Business Associations & Agency Law Part 1',readings:['Ch. 1: all','Ch. 2: pp. 31–51','Tax Obligations for Each Business Type (online)','Restatement (Third) of Agency – selected provisions'],assignments:[{text:'Intro Discussion — post by WEDNESDAY 11:59pm',due:'Wed May 7',done:false},{text:'Business Entity Chart (4 pts) — due Sunday 11:59pm',due:'Sun May 10',done:false},{text:'Practice Problems (4 pts) — due Sunday 11:59pm',due:'Sun May 10',done:false}]},{week:2,dates:'May 11–17',topic:'Agency Law Part 2',readings:['Ch. 2: pp. 75–85'],assignments:[{text:'Client Advice Letter (4 pts) — due Sunday 11:59pm',due:'Sun May 17',done:false}]},{week:3,dates:'May 18–24',topic:'General Partnerships & LLPs',readings:['Ch. 4: all','Ch. 2: pp. 52–63','Uniform Partnership Act RUPA (online)'],assignments:[{text:'Practice Problems (4 pts) — due Sunday 11:59pm',due:'Sun May 24',done:false}]},{week:4,dates:'May 25–31',topic:'Limited Partnerships & LLLPs (⚠️ Residency May 30–31)',readings:['Ch. 5: all','Uniform Limited Partnership Act ULPA (online)'],assignments:[{text:'Bar Exam Essay Outline — due SATURDAY 11:59pm',due:'Sat May 30',done:false}]},{week:5,dates:'Jun 1–7',topic:'Limited Liability Companies (LLC)',readings:['Ch. 6: all','Ch. 2: pp. 66–74','Ch. 3: pp. 105–134','RULLCA & DLLCA (online)'],assignments:[{text:'Practice Problems (4 pts) — due Sunday 11:59pm',due:'Sun Jun 7',done:false}]},{week:6,dates:'Jun 8–14',topic:'Midterm Exam Week',readings:['Review Week 1–5 Lecture Slides'],assignments:[{text:'Midterm Exam (50 pts) — due Sunday 11:59pm (does NOT count toward final)',due:'Sun Jun 14',done:false}]},{week:7,dates:'Jun 15–21',topic:'Corporations: Incorporation & Corporate Finance (Lawyering Skills Track Weekend)',readings:['Ch. 7: pp. 278–305','Ch. 8: pp. 333–344, 374–390','DGCL & MBCA (online)'],assignments:[{text:'Charter Exercise (4 pts) — due Sunday 11:59pm',due:'Sun Jun 21',done:false}]},{week:8,dates:'Jun 22–28',topic:'Corporations: Corporate Governance',readings:['Ch. 9: all','Ch. 2: pp. 64–65','Aspen Audio: Ch. 2 & 3'],assignments:[{text:'Practice Problems (4 pts) — due Sunday 11:59pm',due:'Sun Jun 28',done:false}]},{week:9,dates:'Jun 29–Jul 5',topic:'Corporations: Corporate Fiduciary Duties',readings:['Ch. 10: all','Aspen Audio: Ch. 6 & 7'],assignments:[{text:'Practice Problems (4 pts) — due Sunday 11:59pm',due:'Sun Jul 5',done:false}]},{week:10,dates:'Jul 6–12',topic:'Corporations: Minority Shareholder Protections (⚠️ Residency Jul 11–12)',readings:['Ch. 10 continued'],assignments:[{text:'Bar Exam Essay Outline — due SATURDAY 11:59pm',due:'Sat Jul 11',done:false}]},{week:11,dates:'Jul 13–19',topic:'Corporations: Public Company Regulation & M&A',readings:['Ch. 13: all','Ch. 14: pp. 677–725','Aspen Audio: Ch. 8–12'],assignments:[{text:'Bar Exam Essay (4 pts) — due Sunday 11:59pm',due:'Sun Jul 19',done:false}]},{week:12,dates:'Jul 20–26',topic:'Collaborative Course Review',readings:['Ch. 12: all','Review Week 1–10 Lecture Slides'],assignments:[{text:'Discussion: Student Lecture Video (C/I) — initial post Sun, replies Tue Jul 28',due:'Sun Jul 26',done:false}]},{week:13,dates:'Jul 27–Aug 2',topic:'Final Exam Prep (⚠️ Final Exam Residency Aug 3–4)',readings:['Review exam rubrics','Final Exam Review materials'],assignments:[{text:'Discussion: Bar Exam Essay Self-Assessment (C/I) — due THURSDAY 11:59pm',due:'Thu Jul 30',done:false},{text:'⚠️ FINAL EXAM — Residency 4: August 3–4',due:'Aug 3-4',done:false}]}];
+
+const PR_DATA=[{week:1,dates:'May 4–10',topic:'Introduction to Legal Ethics',readings:['Textbook: pp. 21–22; Problem 1 (pp. 23–42)','Rules Supp.: ABA & CA Rules 5.5, 8.1, 8.3'],assignments:[{text:'Intro Discussion — post by WEDNESDAY 11:59pm (attendance required)',due:'Wed May 7',done:false},{text:'Week 1 Discussion: Moral Character Application (6 pts) — initial post Sun, replies Tue May 12',due:'Sun May 10',done:false}]},{week:2,dates:'May 11–17',topic:'Regulation of the Legal Profession',readings:['Textbook: Problems 2–3 (pp. 42–79)','Rules: ABA & CA Rules 1.1, 1.3, 8.1, 8.3, 8.4, 8.5; CA Rule 1.42'],assignments:[{text:'Quiz (4 pts) — West Academic Module 1 Parts 1 & 2 — due Sunday 11:59pm',due:'Sun May 17',done:false}]},{week:3,dates:'May 18–24',topic:'The Client-Lawyer Relationship',readings:['Textbook: Problem 4 (pp. 81–98)','Rules: ABA & CA Rules 1.18, 6.5, 1.2, 1.4','Textbook: Problems 5–6 (pp. 99–131)','Rules: ABA & CA Rules 1.5, 1.15, 1.16; CA Rule 1.51; Bus. & Prof. Code §§6148, 6200'],assignments:[{text:'Activity: IRAC two issues from bar exam fact pattern — due Sunday 11:59pm',due:'Sun May 24',done:false},{text:'Quiz (4 pts) — West Academic Module 2 — due Sunday 11:59pm',due:'Sun May 24',done:false}]},{week:4,dates:'May 25–31',topic:'Protecting Client\'s Interests (⚠️ Residency this weekend)',readings:['Textbook: Problems 7–8 (pp. 131–170)','Rules: ABA & CA Rules 1.6, 4.4, 4.1','Textbook: Problem 9 (pp. 171–185)','Rules: ABA & CA Rules 1.7–1.13'],assignments:[{text:'Activity: IRAC two issues from bar exam fact pattern (4 pts) — due Sunday 11:59pm',due:'Sun May 31',done:false}]},{week:5,dates:'Jun 1–7',topic:'Conflicts of Interest',readings:['Textbook: Problems 10–12 (pp. 185–235)','Rules: ABA & CA Rules 1.7–1.13 (continued)'],assignments:[{text:'Bar Exam Practice Essay (4 pts) — due Sunday 11:59pm',due:'Sun Jun 7',done:false}]},{week:6,dates:'Jun 8–14',topic:'Conflicts of Interest (cont.)',readings:['Textbook: Problems 13–15 (pp. 235–280)','Rules: ABA & CA Rules 1.7–1.13 (continued)'],assignments:[{text:'Study for Midterm',due:'Sun Jun 14',done:false},{text:'Q&A with Instructor (C/I) — date/time TBA on Canvas',due:'TBA',done:false}]},{week:7,dates:'Jun 15–21',topic:'Lawyer as Advisor; Midterm (⚠️ Lawyering Skills Residency)',readings:['Textbook: Problems 16–18 (pp. 281–333)','Rules: ABA & CA Rules 1.2, 2.1, 4.2, 4.3; ABA Rule 1.14'],assignments:[{text:'⚠️ MIDTERM EXAM — covers Weeks 1–6',due:'Week 7',done:false},{text:'Quiz (4 pts) — West Academic Modules 7 & 8 — due Sunday 11:59pm',due:'Sun Jun 21',done:false}]},{week:8,dates:'Jun 22–28',topic:'Lawyer as Negotiator & Evaluator',readings:['Textbook: Problems 19–20 (pp. 333–367, skip #21)','Rules: ABA & CA Rules 1.2, 2.1, 3.4, 4.1; ABA Rule 2.3'],assignments:[{text:'Quiz (4 pts) — West Academic Modules 3 & 4 — due Sunday 11:59pm',due:'Sun Jun 28',done:false}]},{week:9,dates:'Jun 29–Jul 5',topic:'Lawyer as Advocate',readings:['Textbook: Problems 22–24 (pp. 391–448)','Rules: ABA & CA Rules 3.1, 3.2, 3.3, 3.4, 3.7; FRCP 11'],assignments:[{text:'Quiz (4 pts) — West Academic Modules 6 & 4 Part 2 — due Sunday 11:59pm',due:'Sun Jul 5',done:false}]},{week:10,dates:'Jul 6–12',topic:'Criminal Defense & Prosecutor Obligations (⚠️ Residency this weekend)',readings:['Textbook: Problems 25–26 (pp. 448–490)','Rules: ABA & CA Rules 1.6, 3.3, 1.2, 1.4, 3.8'],assignments:[{text:'Quiz (4 pts) — West Academic Modules 5 & 9 — due Sunday 11:59pm',due:'Sun Jul 12',done:false}]},{week:11,dates:'Jul 13–19',topic:"Lawyers' Duties to the Court and Public",readings:['Textbook: Problem 27 (pp. 491–512, skip #28)','Rules: ABA & CA Rules 3.4, 3.5, 3.6, 8.4'],assignments:[{text:'Discussion: Hypo (6 pts) — initial post Sun, replies Tue Jul 21',due:'Sun Jul 19',done:false},{text:'Q&A with Instructor (C/I) — date/time TBA on Canvas',due:'TBA',done:false}]},{week:12,dates:'Jul 20–26',topic:'Promoting Legal Services',readings:['Textbook: Problems 29–30, 36 (pp. 527–563, 665–684)','Rules: ABA & CA Rules 7.1, 7.2, 7.3, 1.1, 1.5, 8.2; CA Rules 7.4, 7.5'],assignments:[{text:'Bar Exam Practice Essay (4 pts) — due Sunday 11:59pm',due:'Sun Jul 26',done:false}]},{week:13,dates:'Jul 27–Aug 2',topic:'Finals (⚠️ Finals Residency this week!)',readings:['Review homework essay','Final Exam Review materials'],assignments:[{text:'Update outlines, flashcards, study tools',due:'Week 13',done:false},{text:'⚠️ FINAL EXAM — Finals Residency',due:'Jul 27–Aug 2',done:false}]}];
+
+const DEF_TASKS=[{id:1,text:'Prepare for Tuesday pro bono meeting',tag:'Pro bono',done:false},{id:2,text:'Review case action items',tag:'Pro bono',done:false},{id:3,text:'Schedule meeting with Dean — benchmarks',tag:'Directed study',done:false},{id:4,text:"Research Dean's latest suggested question",tag:'Directed study',done:false},{id:5,text:'Work with provider on book printing',tag:'Ferlina book',done:false},{id:6,text:'Obtain ISBN number',tag:'Ferlina book',done:false},{id:7,text:'Explore audiobook creation',tag:'Ferlina book',done:false}];
+const DEF_REMINDERS=['Pro bono next meeting: Tuesday','⚠️ Week 1 starts Monday May 4 — intro discussions due Wednesday','Both BA & PR: assignments due every Sunday 11:59pm','🚫 PR course: zero AI policy — all work must be your own'];
+
+let tasks=JSON.parse(localStorage.getItem('kd2-tasks')||'null')||DEF_TASKS.map(t=>({...t}));
+let reminders=JSON.parse(localStorage.getItem('kd2-rem')||'null')||[...DEF_REMINDERS];
+let weather=JSON.parse(localStorage.getItem('kd2-weather')||'null');
+let baWeek=parseInt(localStorage.getItem('kd2-ba-week')||'0');
+let prWeek=parseInt(localStorage.getItem('kd2-pr-week')||'0');
+let baData=JSON.parse(localStorage.getItem('kd2-ba')||'null')||JSON.parse(JSON.stringify(BA_DATA));
+let prData=JSON.parse(localStorage.getItem('kd2-pr')||'null')||JSON.parse(JSON.stringify(PR_DATA));
+let lsAssigns=JSON.parse(localStorage.getItem('kd2-ls')||'null')||[];
+
+function saveT(){localStorage.setItem('kd2-tasks',JSON.stringify(tasks))}
+function saveR(){localStorage.setItem('kd2-rem',JSON.stringify(reminders))}
+function saveW(w){localStorage.setItem('kd2-weather',JSON.stringify(w))}
+function saveBA(){localStorage.setItem('kd2-ba',JSON.stringify(baData));localStorage.setItem('kd2-ba-week',baWeek)}
+function savePR(){localStorage.setItem('kd2-pr',JSON.stringify(prData));localStorage.setItem('kd2-pr-week',prWeek)}
+function saveLS(){localStorage.setItem('kd2-ls',JSON.stringify(lsAssigns))}
+
+const now=new Date();
+const todayStr=now.toISOString().slice(0,10);
+document.getElementById('dateline').textContent=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate();
+document.getElementById('todayDay').textContent=DAYS[now.getDay()];
+
+// Detect current week number (Week 1 = May 4)
+function getCurrentWeekIdx(){
+  const start=new Date('2026-05-04');
+  const diff=Math.floor((now-start)/(7*24*3600*1000));
+  return Math.max(0,Math.min(12,diff));
+}
+if(!localStorage.getItem('kd2-ba-week')) baWeek=getCurrentWeekIdx();
+if(!localStorage.getItem('kd2-pr-week')) prWeek=getCurrentWeekIdx();
+
+function updateClock(){const n=new Date(),h=n.getHours(),m=n.getMinutes();const ap=h>=12?'pm':'am',dh=h%12||12;document.getElementById('clock').textContent=dh+':'+(m<10?'0':'')+m+' '+ap}
+updateClock();setInterval(updateClock,15000);
+
+function buildSchedule(){
+  const isWed=WED_DATES.includes(todayStr);
+  const isSun=now.getDay()===0;
+  const isWeekday=now.getDay()>=1&&now.getDay()<=5;
+  const items=[
+    isWeekday?{time:'1:00 pm',label:'Pondel Law Firm',tag:'Work'}:null,
+    isWed?{time:'6:30 pm',label:'Law & Storytelling — Eric Lane',tag:'Class'}:null,
+    isSun?{time:'Due today',label:'BA + PR assignments due 11:59pm',tag:'⚠️ School'}:null,
+    !isSun?{time:'Sundays',label:'BA + PR assignments due 11:59pm',tag:'Upcoming'}:null,
+  ].filter(Boolean);
+  const el=document.getElementById('schedList');el.innerHTML='';
+  items.forEach(i=>{el.innerHTML+=`<div class="sched-item"><span class="sched-time">${i.time}</span><span class="sched-label">${i.label}</span><span class="sched-tag">${i.tag}</span></div>`});
+}
+buildSchedule();
+
+function getIcon(c){if(!c)return'🌤️';const l=c.toLowerCase();for(const[k,v]of Object.entries(CONDS)){if(l.includes(k))return v}return'🌤️'}
+function renderWeather(w){
+  document.getElementById('wIcon').textContent=getIcon(w.condition||w.condition_text||'');
+  document.getElementById('wTemp').textContent=Math.round(w.temp)+'°F';
+  document.getElementById('wDesc').textContent=(w.condition_text||w.condition||'')+' · Los Angeles';
+  document.getElementById('wHiRain').textContent=w.high?'High '+Math.round(w.high)+'° · '+(w.rain_pct||0)+'% rain':'';
+  const fc=document.getElementById('forecast');fc.innerHTML='';
+  (w.forecast||[]).slice(0,4).forEach(f=>{fc.innerHTML+=`<div class="fc-day"><div class="fc-d">${(f.day||'').slice(0,3)}</div><div class="fc-h">${Math.round(f.hi)}°</div>${f.rain?`<div class="fc-r">${f.rain}%</div>`:''}</div>`});
+}
+async function fetchWeather(force){
+  if(!force&&weather&&weather.ts&&(Date.now()-weather.ts)<3600000){renderWeather(weather);return}
+  document.getElementById('wRefresh').textContent='Fetching...';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,tools:[{type:'web_search_20250305',name:'web_search'}],system:'Weather data API. Respond ONLY with compact valid JSON, no markdown. Format: {"temp":72,"condition":"Sunny","condition_text":"Sunny","high":75,"rain_pct":0,"forecast":[{"day":"Saturday","hi":73,"rain":10},{"day":"Sunday","hi":68,"rain":0},{"day":"Monday","hi":66,"rain":20},{"day":"Tuesday","hi":70,"rain":5}]}',messages:[{role:'user',content:'Current weather in Los Angeles CA right now and 4-day forecast. JSON only.'}]})});
+    const data=await res.json();
+    const txt=data.content?.find(b=>b.type==='text')?.text||'';
+    const parsed=JSON.parse(txt.replace(/```[a-z]*|```/g,'').trim());
+    parsed.ts=Date.now();weather=parsed;saveW(weather);renderWeather(weather);
+  }catch(e){if(weather)renderWeather(weather)}
+  document.getElementById('wRefresh').textContent='↻ Refresh';
+}
+fetchWeather(false);
+document.getElementById('wRefresh').addEventListener('click',()=>fetchWeather(true));
+
+function renderReminders(){
+  const el=document.getElementById('remList');el.innerHTML='';
+  const colors=['var(--accent-rose)','var(--accent-gold)','var(--accent-teal)','var(--accent-navy)','var(--accent-sage)'];
+  reminders.forEach((r,i)=>{
+    const row=document.createElement('div');row.className='rem-item';
+    row.innerHTML=`<div class="rem-dot" style="background:${colors[i%colors.length]}"></div><div class="rem-text">${r}</div><button class="rem-del">×</button>`;
+    row.querySelector('.rem-del').addEventListener('click',()=>{reminders.splice(i,1);saveR();renderReminders()});
+    el.appendChild(row);
+  });
+}
+document.getElementById('remAdd').addEventListener('click',()=>{const v=document.getElementById('remIn').value.trim();if(!v)return;reminders.push(v);saveR();renderReminders();document.getElementById('remIn').value=''});
+document.getElementById('remIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('remAdd').click()});
+
+function renderTasks(){
+  const el=document.getElementById('taskList');el.innerHTML='';
+  const open=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);
+  document.getElementById('taskCount').textContent=open.length+' open';
+  [...open,...done].forEach(t=>{
+    const idx=tasks.findIndex(x=>x.id===t.id);
+    const row=document.createElement('div');row.className='task-item';
+    const chk=document.createElement('div');chk.className='chk'+(t.done?' done':'');
+    chk.addEventListener('click',()=>{tasks[idx].done=!tasks[idx].done;saveT();renderTasks()});
+    const body=document.createElement('div');body.className='task-body';
+    body.innerHTML=`<div class="task-text${t.done?' done':''}">${t.text}</div><div class="task-sub">${t.tag}</div>`;
+    row.appendChild(chk);row.appendChild(body);el.appendChild(row);
+  });
+}
+
+function renderCourse(prefix,data,weekIdx){
+  const w=data[weekIdx];
+  document.getElementById(prefix+'-week-label').textContent='Week '+w.week+' of 13';
+  document.getElementById(prefix+'-week-dates').textContent=w.dates;
+  document.getElementById(prefix+'-topic').textContent=w.topic;
+  const rEl=document.getElementById(prefix+'-readings');rEl.innerHTML='';
+  w.readings.forEach(r=>{rEl.innerHTML+=`<div class="reading-item">${r}</div>`});
+  const aEl=document.getElementById(prefix+'-assigns');aEl.innerHTML='';
+  w.assignments.forEach((a,ai)=>{
+    const row=document.createElement('div');row.className='task-item';
+    const chk=document.createElement('div');chk.className='chk'+(a.done?' done':'');
+    chk.addEventListener('click',()=>{data[weekIdx].assignments[ai].done=!a.done;if(prefix==='ba')saveBA();else savePR();renderCourse(prefix,data,weekIdx)});
+    const body=document.createElement('div');body.className='task-body';
+    body.innerHTML=`<div class="task-text${a.done?' done':''}">${a.text}</div>${a.due?`<div class="task-sub">Due: ${a.due}</div>`:''}`;
+    row.appendChild(chk);row.appendChild(body);aEl.appendChild(row);
+  });
+  document.getElementById(prefix+'-prev').disabled=weekIdx===0;
+  document.getElementById(prefix+'-next').disabled=weekIdx===data.length-1;
+}
+
+document.getElementById('ba-prev').addEventListener('click',()=>{if(baWeek>0){baWeek--;saveBA();renderCourse('ba',baData,baWeek)}});
+document.getElementById('ba-next').addEventListener('click',()=>{if(baWeek<12){baWeek++;saveBA();renderCourse('ba',baData,baWeek)}});
+document.getElementById('ba-add-btn').addEventListener('click',()=>{
+  const v=document.getElementById('ba-add-in').value.trim();if(!v)return;
+  baData[baWeek].assignments.push({text:v,due:'',done:false});saveBA();renderCourse('ba',baData,baWeek);document.getElementById('ba-add-in').value='';
+});
+document.getElementById('ba-add-in').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('ba-add-btn').click()});
+
+document.getElementById('pr-prev').addEventListener('click',()=>{if(prWeek>0){prWeek--;savePR();renderCourse('pr',prData,prWeek)}});
+document.getElementById('pr-next').addEventListener('click',()=>{if(prWeek<12){prWeek++;savePR();renderCourse('pr',prData,prWeek)}});
+document.getElementById('pr-add-btn').addEventListener('click',()=>{
+  const v=document.getElementById('pr-add-in').value.trim();if(!v)return;
+  prData[prWeek].assignments.push({text:v,due:'',done:false});savePR();renderCourse('pr',prData,prWeek);document.getElementById('pr-add-in').value='';
+});
+document.getElementById('pr-add-in').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pr-add-btn').click()});
+
+function renderLS(){
+  const dEl=document.getElementById('ls-dates');dEl.innerHTML='';
+  LS_DATES.forEach(d=>{dEl.innerHTML+=`<div class="reading-item">${d} · Wed 6:30–9:30pm</div>`});
+  const aEl=document.getElementById('ls-assigns');aEl.innerHTML='';
+  lsAssigns.forEach((a,i)=>{
+    const row=document.createElement('div');row.className='task-item';
+    const chk=document.createElement('div');chk.className='chk'+(a.done?' done':'');
+    chk.addEventListener('click',()=>{lsAssigns[i].done=!a.done;saveLS();renderLS()});
+    const body=document.createElement('div');body.className='task-body';
+    body.innerHTML=`<div class="task-text${a.done?' done':''}">${a.text}</div>`;
+    const del=document.createElement('button');del.className='rem-del';del.textContent='×';del.style.marginLeft='auto';
+    del.addEventListener('click',()=>{lsAssigns.splice(i,1);saveLS();renderLS()});
+    row.appendChild(chk);row.appendChild(body);row.appendChild(del);aEl.appendChild(row);
+  });
+  if(!lsAssigns.length) aEl.innerHTML='<div style="font-size:12px;color:var(--warm-gray);font-style:italic;padding:6px 0">Syllabus coming soon — add readings and notes below</div>';
+}
+document.getElementById('ls-add-btn').addEventListener('click',()=>{
+  const v=document.getElementById('ls-add-in').value.trim();if(!v)return;
+  lsAssigns.push({text:v,done:false});saveLS();renderLS();document.getElementById('ls-add-in').value='';
+});
+document.getElementById('ls-add-in').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('ls-add-btn').click()});
+
+document.querySelectorAll('.course-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.course-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.course-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+function setStatus(msg,err){const el=document.getElementById('genStatus');el.textContent=msg;el.style.color=err?'#8B3A52':'var(--warm-gray)'}
+function animProg(pct){document.getElementById('prog').style.display='block';document.getElementById('progbar').style.width=pct+'%'}
+
+document.getElementById('genBtn').addEventListener('click',async()=>{
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true;btn.textContent='Generating...';animProg(15);setStatus('Writing your brief...');
+  const open=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);
+  const notes=document.getElementById('notes').value.trim();
+  const isWed=WED_DATES.includes(todayStr);
+  const wText=weather?`${Math.round(weather.temp)}°F, ${weather.condition_text||weather.condition}`:'check dashboard';
+  const isWeekday=now.getDay()>=1&&now.getDay()<=5;
+  const sched=[isWeekday?'1:00pm–4:00pm — Pondel Law Firm':null,isWed?'6:30pm–9:30pm — Law & Storytelling (Eric Lane)':null].filter(Boolean).join('\n')||'No scheduled commitments today';
+  const baW=baData[baWeek];const prW=prData[prWeek];
+  const courseText=`Business Associations Wk ${baW.week} (${baW.dates}): ${baW.assignments.filter(a=>!a.done).map(a=>a.text).join('; ')||'all done'}\nProfessional Responsibility Wk ${prW.week} (${prW.dates}): ${prW.assignments.filter(a=>!a.done).map(a=>a.text).join('; ')||'all done'}${lsAssigns.filter(a=>!a.done).length?'\nLaw & Storytelling: '+lsAssigns.filter(a=>!a.done).map(a=>a.text).join('; '):''}`;
+  const prompt=`Morning brief for Kristin. Today: ${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}. Weather: ${wText}, Los Angeles.\n\nSchedule:\n${sched}\n\nReminders:\n${reminders.map(r=>'- '+r).join('\n')||'None'}\n\nCourse assignments this week:\n${courseText}\n\nOpen action items:\n${open.map(t=>`- [${t.tag}] ${t.text}`).join('\n')||'None'}\nCompleted: ${done.map(t=>t.text).join(', ')||'None'}\nNotes: ${notes||'None'}\n\nWrite a focused morning brief in Notion markdown. Include: one-sentence framing, today's schedule, reminders, course assignments due, top 3 urgent action items, carry-forward list, one closing thought. Concise. Use Kristin's name once. No H1 title.`;
+  try{
+    animProg(40);
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'Write morning briefs in Notion markdown. Warm, direct, no preamble.',messages:[{role:'user',content:prompt}]})});
+    animProg(70);
+    const data=await res.json();
+    const briefText=data.content?.find(b=>b.type==='text')?.text||'';
+    if(!briefText){setStatus('No content returned.',true);btn.disabled=false;btn.textContent='Generate Morning Brief & Push to Notion';return}
+    const full=`---\n\n*${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()} ${now.getFullYear()} · ${wText}, Los Angeles*\n\n`+briefText;
+    await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'Update Notion pages via MCP.',messages:[{role:'user',content:`Update Notion page 351e7566-e74b-81d0-8148-de26c8504c7b, replace content with:\n\n${full}`}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});
+    animProg(100);setStatus('Brief pushed to Notion ✓');
+    btn.disabled=false;btn.textContent='Generate Morning Brief & Push to Notion';
+    setTimeout(()=>{document.getElementById('prog').style.display='none'},1400);
+  }catch(e){
+    setStatus('Something went wrong — try again.',true);
+    btn.disabled=false;btn.textContent='Generate Morning Brief & Push to Notion';
+    document.getElementById('prog').style.display='none';
+  }
+});
+
+renderReminders();renderTasks();renderCourse('ba',baData,baWeek);renderCourse('pr',prData,prWeek);renderLS();
+</script>
+</body>
+</html>
