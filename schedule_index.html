@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Weekly Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F5F0E8;--charcoal:#1E1E1A;--warm-gray:#8A8578;--light-border:#E2DAD0;--card-bg:#FFFFFF;--shadow:0 1px 3px rgba(30,30,26,0.06),0 4px 16px rgba(30,30,26,0.04)}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;padding:1.5rem 1rem 4rem;font-size:14px}
+.page{max-width:900px;margin:0 auto}
+.top-bar{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.sched-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--charcoal)}
+.hint{font-size:12px;color:var(--warm-gray)}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--warm-gray)}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.grid-wrap{overflow-x:auto;background:var(--card-bg);border:1px solid var(--light-border);border-radius:14px;box-shadow:var(--shadow)}
+.grid-inner{display:flex;min-width:580px}
+.time-col{width:50px;flex-shrink:0;padding-top:38px}
+.time-slot{height:56px;display:flex;align-items:flex-start;justify-content:flex-end;padding:4px 8px 0 0;font-size:10px;color:var(--warm-gray);border-top:0.5px solid var(--light-border)}
+.days-wrap{flex:1;display:grid;grid-template-columns:repeat(7,1fr)}
+.day-col{border-left:0.5px solid var(--light-border)}
+.day-col:last-child{border-right:0.5px solid var(--light-border)}
+.day-header{height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--warm-gray);background:var(--cream);border-bottom:0.5px solid var(--light-border);border-top:0.5px solid var(--light-border);gap:1px}
+.day-header.today{color:#1C3557}
+.day-date{font-size:10px;font-weight:400;color:var(--warm-gray)}
+.day-header.today .day-date{color:#1C3557}
+.day-body{position:relative;height:840px;border-bottom:0.5px solid var(--light-border);background:var(--card-bg)}
+.hour-line{position:absolute;left:0;right:0;border-top:0.5px solid var(--light-border);pointer-events:none}
+.cell-click{position:absolute;left:0;right:0;height:56px;cursor:pointer;z-index:1;transition:background 0.1s;display:flex;align-items:center;justify-content:center}
+.cell-click:hover{background:rgba(44,110,106,0.06)}
+.plus-icon{font-size:20px;color:var(--warm-gray);opacity:0;transition:opacity 0.1s;pointer-events:none;line-height:1}
+.cell-click:hover .plus-icon{opacity:1}
+.evt-block{position:absolute;left:3px;right:3px;border-radius:5px;padding:4px 7px;font-size:10px;font-weight:500;overflow:hidden;cursor:pointer;z-index:2;line-height:1.35;transition:opacity 0.15s}
+.evt-block:hover{opacity:0.75}
+.evt-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.evt-time{opacity:0.82;font-size:9px;margin-top:1px}
+
+/* FORM PANEL */
+.form-overlay{display:none;position:fixed;inset:0;background:rgba(30,30,26,0.3);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.form-overlay.open{display:flex}
+.form-panel{background:var(--card-bg);border-radius:14px;padding:1.5rem;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(30,30,26,0.2)}
+.form-lbl{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--charcoal);margin-bottom:4px}
+.form-sub{font-size:12px;color:var(--warm-gray);margin-bottom:16px}
+.form-field{margin-bottom:12px}
+.form-field label{display:block;font-size:11px;font-weight:500;color:var(--warm-gray);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:5px}
+.form-field input,.form-field select{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--cream);color:var(--charcoal);border:1px solid var(--light-border);border-radius:8px;padding:9px 12px;outline:none;transition:border-color 0.2s}
+.form-field input:focus,.form-field select:focus{border-color:#2C6E6A}
+.cats{display:flex;gap:6px;flex-wrap:wrap}
+.cpill{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid;background:transparent;transition:all 0.12s;font-family:'DM Sans',sans-serif}
+.form-btns{display:flex;gap:8px;margin-top:16px}
+.btn-primary{flex:1;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:10px;border-radius:8px;border:none;background:var(--charcoal);color:var(--cream);cursor:pointer;transition:all 0.15s}
+.btn-primary:hover{background:#333}
+.btn-cancel{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 16px;border-radius:8px;border:1px solid var(--light-border);background:none;color:var(--warm-gray);cursor:pointer;transition:all 0.15s}
+.btn-cancel:hover{background:var(--cream)}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar">
+    <span class="sched-title">Weekly Schedule</span>
+    <span class="hint">Click any slot to add · click event to remove</span>
+  </div>
+  <div class="legend" id="leg"></div>
+  <div class="grid-wrap">
+    <div class="grid-inner">
+      <div class="time-col" id="timeCol"></div>
+      <div class="days-wrap" id="daysWrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM MODAL -->
+<div class="form-overlay" id="formOverlay">
+  <div class="form-panel">
+    <div class="form-lbl">Add Event</div>
+    <div class="form-sub" id="formSub"></div>
+    <div class="form-field">
+      <label>Event name</label>
+      <input type="text" id="evtN" placeholder="e.g. Study block, Office hours..." autocomplete="off"/>
+    </div>
+    <div class="form-field">
+      <label>Duration</label>
+      <select id="durS">
+        <option value="1">1 hour</option>
+        <option value="1.5">1.5 hours</option>
+        <option value="2">2 hours</option>
+        <option value="2.5">2.5 hours</option>
+        <option value="3">3 hours</option>
+        <option value="0.5">30 minutes</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Category</label>
+      <div class="cats" id="catP"></div>
+    </div>
+    <div class="form-btns">
+      <button class="btn-cancel" id="canB">Cancel</button>
+      <button class="btn-primary" id="addB">Add to schedule</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CELL=56,START=7,NHOURS=15;
+const DAYS=[['Mon','M'],['Tue','T'],['Wed','W'],['Thu','T'],['Fri','F'],['Sat','S'],['Sun','S']];
+const CATS=[
+  {n:'Class',bg:'#0F6E56',tx:'#fff'},
+  {n:'Study',bg:'#C2548A',tx:'#fff'},
+  {n:'Work',bg:'#4A90C4',tx:'#fff'},
+  {n:'Pro Bono',bg:'#8B3A52',tx:'#fff'},
+  {n:'Fed Civil Case',bg:'#1C3557',tx:'#fff'},
+  {n:'Personal',bg:'#534AB7',tx:'#fff'},
+  {n:'Meal',bg:'#3B6D11',tx:'#fff'},
+  {n:'Exercise',bg:'#993C1D',tx:'#fff'},
+];
+const DEF_EVENTS=[
+  {d:0,h:9,dur:1.5,n:'Law & Civil Rights',c:'Class'},
+  {d:2,h:9,dur:1.5,n:'Law & Civil Rights',c:'Class'},
+  {d:1,h:14,dur:2,n:'Study block',c:'Study'},
+  {d:3,h:14,dur:2,n:'Study block',c:'Study'},
+  {d:0,h:12,dur:1,n:'Lunch',c:'Meal'},
+  {d:2,h:12,dur:1,n:'Lunch',c:'Meal'},
+  {d:4,h:7,dur:1,n:'Morning workout',c:'Exercise'},
+  {d:0,h:13,dur:3,n:'Pondel Law Firm',c:'Work'},
+  {d:1,h:13,dur:3,n:'Pondel Law Firm',c:'Work'},
+  {d:2,h:13,dur:3,n:'Pondel Law Firm',c:'Work'},
+  {d:3,h:13,dur:3,n:'Pondel Law Firm',c:'Work'},
+  {d:4,h:13,dur:3,n:'Pondel Law Firm',c:'Work'},
+];
+
+let events=JSON.parse(localStorage.getItem('ks-events')||'null')||DEF_EVENTS.map(e=>({...e}));
+let selDay=null,selHour=null,selCat='Class';
+
+function save(){localStorage.setItem('ks-events',JSON.stringify(events))}
+
+const today=(new Date().getDay()+6)%7;
+
+function fmt(h){const w=Math.floor(h),half=h%1!==0,ap=w<12?'am':'pm',d=w===0?12:w>12?w-12:w;return d+(half?':30':'')+ap}
+function getCat(n){return CATS.find(c=>c.n===n)||CATS[0]}
+
+function getWeekDates(){
+  const now=new Date(),mon=new Date(now);
+  mon.setDate(now.getDate()-((now.getDay()+6)%7));
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.getDate()});
+}
+const dates=getWeekDates();
+
+// Legend
+const legEl=document.getElementById('leg');
+CATS.forEach(c=>{
+  const el=document.createElement('div');el.className='leg';
+  el.innerHTML=`<div class="leg-dot" style="background:${c.bg}"></div><span>${c.n}</span>`;
+  legEl.appendChild(el);
+});
+
+// Time column
+const tc=document.getElementById('timeCol');
+for(let h=0;h<NHOURS;h++){
+  const s=document.createElement('div');s.className='time-slot';s.textContent=fmt(START+h);tc.appendChild(s);
+}
+
+// Day columns
+const dw=document.getElementById('daysWrap');
+DAYS.forEach(([label],di)=>{
+  const col=document.createElement('div');col.className='day-col';
+  const hdr=document.createElement('div');
+  hdr.className='day-header'+(di===today?' today':'');
+  hdr.innerHTML=`<span>${label}</span><span class="day-date">${dates[di]}</span>`;
+  col.appendChild(hdr);
+  const body=document.createElement('div');body.className='day-body';body.id='db'+di;
+  for(let h=0;h<NHOURS;h++){
+    const line=document.createElement('div');line.className='hour-line';line.style.top=h*CELL+'px';body.appendChild(line);
+    const halfLine=document.createElement('div');halfLine.className='hour-line';halfLine.style.top=(h*CELL+CELL/2)+'px';halfLine.style.borderTopStyle='dashed';halfLine.style.opacity='0.4';body.appendChild(halfLine);
+    const cell=document.createElement('div');cell.className='cell-click';cell.style.top=h*CELL+'px';cell.style.height=(CELL/2)+'px';
+    cell.innerHTML='<span class="plus-icon">+</span>';
+    cell.addEventListener('click',()=>openForm(di,START+h));
+    body.appendChild(cell);
+    const cellHalf=document.createElement('div');cellHalf.className='cell-click';cellHalf.style.top=(h*CELL+CELL/2)+'px';cellHalf.style.height=(CELL/2)+'px';
+    cellHalf.innerHTML='<span class="plus-icon">+</span>';
+    cellHalf.addEventListener('click',()=>openForm(di,START+h+0.5));
+    body.appendChild(cellHalf);
+  }
+  col.appendChild(body);dw.appendChild(col);
+});
+
+function render(){
+  document.querySelectorAll('.evt-block').forEach(e=>e.remove());
+  events.forEach((evt,idx)=>{
+    const body=document.getElementById('db'+evt.d);if(!body)return;
+    const top=(evt.h-START)*CELL;if(top<0||top>=NHOURS*CELL)return;
+    const cat=getCat(evt.c);
+    const h=Math.min(evt.dur*CELL-4,NHOURS*CELL-top-2);
+    const el=document.createElement('div');el.className='evt-block';
+    el.style.cssText=`top:${top+2}px;height:${h}px;background:${cat.bg};color:${cat.tx};`;
+    el.title='Click to remove';
+    el.innerHTML=`<div class="evt-name">${evt.n}</div><div class="evt-time">${fmt(evt.h)}–${fmt(evt.h+evt.dur)}</div>`;
+    el.addEventListener('click',e=>{e.stopPropagation();events.splice(idx,1);save();render()});
+    body.appendChild(el);
+  });
+}
+
+// Category pills
+const catP=document.getElementById('catP');
+CATS.forEach(cat=>{
+  const pill=document.createElement('button');pill.className='cpill';
+  pill.textContent=cat.n;pill.style.borderColor=cat.bg;pill.style.color=cat.bg;pill.dataset.c=cat.n;
+  pill.addEventListener('click',()=>{selCat=cat.n;updatePills()});
+  catP.appendChild(pill);
+});
+
+function updatePills(){
+  document.querySelectorAll('.cpill').forEach(p=>{
+    const cat=getCat(p.dataset.c);
+    if(p.dataset.c===selCat){p.style.background=cat.bg;p.style.color=cat.tx}
+    else{p.style.background='transparent';p.style.color=cat.bg}
+  });
+}
+
+const overlay=document.getElementById('formOverlay');
+const evtN=document.getElementById('evtN');
+const durS=document.getElementById('durS');
+
+function openForm(d,h){
+  selDay=d;selHour=h;
+  document.getElementById('formSub').textContent=DAYS[d][0]+', '+fmt(h);
+  evtN.value='';durS.value='1';
+  overlay.classList.add('open');
+  setTimeout(()=>evtN.focus(),50);
+  updatePills();
+}
+
+function closeForm(){overlay.classList.remove('open');selDay=null;selHour=null}
+
+document.getElementById('addB').addEventListener('click',()=>{
+  const n=evtN.value.trim();if(!n||selDay===null)return;
+  events.push({d:selDay,h:selHour,dur:parseFloat(durS.value),n,c:selCat});
+  save();render();closeForm();
+});
+
+document.getElementById('canB').addEventListener('click',closeForm);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeForm()});
+evtN.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('addB').click();if(e.key==='Escape')closeForm()});
+
+updatePills();
+render();
+</script>
+</body>
+</html>
