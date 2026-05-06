@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Morning Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#F5F0E8;--charcoal:#1E1E1A;--warm-gray:#8A8578;--light-border:#E2DAD0;--card-bg:#FFFFFF;--accent-rose:#8B3A52;--accent-teal:#2C6E6A;--accent-navy:#1C3557;--accent-gold:#B8860B;--shadow:0 1px 3px rgba(30,30,26,0.06),0 4px 16px rgba(30,30,26,0.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;padding:1.5rem 1rem 4rem;font-size:14px}
+.page{max-width:680px;margin:0 auto}
+.header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px}
+.title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--charcoal)}
+.datestamp{font-size:13px;color:var(--warm-gray)}
+.card{background:var(--card-bg);border:1px solid var(--light-border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray)}
+.refresh-btn{font-size:11px;color:var(--warm-gray);background:none;border:0.5px solid var(--light-border);border-radius:20px;padding:3px 10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.refresh-btn:hover{background:var(--cream);color:var(--charcoal)}
+.item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--cream);font-size:13px;color:var(--charcoal);line-height:1.45}
+.item:last-child{border-bottom:none}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.tag{font-size:10px;color:var(--warm-gray);margin-left:auto;white-space:nowrap;padding-left:8px}
+.loading{font-size:13px;color:var(--warm-gray);font-style:italic;padding:4px 0}
+.notes-area{width:100%;font-size:13px;min-height:72px;padding:8px 10px;border-radius:8px;border:1px solid var(--light-border);background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-serif;resize:vertical;outline:none}
+.notes-area:focus{border-color:var(--accent-teal)}
+.gen-btn{width:100%;padding:13px;font-size:14px;font-weight:500;background:var(--charcoal);color:var(--cream);border:none;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:1rem}
+.gen-btn:hover{background:#333;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.gen-btn:disabled{opacity:0.6;transform:none;cursor:not-allowed}
+.status{font-size:13px;color:var(--warm-gray);text-align:center;margin-top:8px;min-height:18px}
+.notion-link{display:block;font-size:12px;color:var(--accent-teal);text-align:center;text-decoration:none;margin-top:8px}
+.notion-link:hover{text-decoration:underline}
+.progress{height:2px;background:var(--light-border);border-radius:1px;overflow:hidden;display:none;margin-top:8px}
+.progress-bar{height:100%;width:0%;background:var(--accent-teal);transition:width 0.4s}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <span class="title">☀️ Morning Brief</span>
+    <span class="datestamp" id="datestamp"></span>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent-teal)">
+    <div class="card-head">
+      <span class="card-title">📋 This Week — Open Items from Notion</span>
+      <button class="refresh-btn" id="refreshBtn">↻ Refresh</button>
+    </div>
+    <div id="notionItems"><div class="loading">Fetching from Notion...</div></div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent-navy)">
+    <div class="card-head"><span class="card-title">📅 Today's Schedule</span></div>
+    <div id="schedItems"></div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent-rose)">
+    <div class="card-head"><span class="card-title">🔔 Reminders</span></div>
+    <div id="remItems"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">📝 Notes for today's brief</span></div>
+    <textarea class="notes-area" id="notes" placeholder="Any Zooms, action items, or things to include today..."></textarea>
+  </div>
+
+  <button class="gen-btn" id="genBtn">Generate & Push to Notion</button>
+  <div class="progress" id="prog"><div class="progress-bar" id="progbar"></div></div>
+  <div class="status" id="status"></div>
+  <a class="notion-link" href="https://app.notion.com/p/351e7566e74b81d08148de26c8504c7b" target="_blank">Open Morning Brief in Notion ↗</a>
+</div>
+
+<script>
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WED_DATES=['2026-05-20','2026-05-27','2026-06-03','2026-06-10','2026-06-17','2026-06-24','2026-07-01','2026-07-08','2026-07-15','2026-07-22'];
+
+const now=new Date();
+const todayStr=now.toISOString().slice(0,10);
+const isWeekday=now.getDay()>=1&&now.getDay()<=5;
+const isWed=WED_DATES.includes(todayStr);
+const isSun=now.getDay()===0;
+const dateLabel=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+
+document.getElementById('datestamp').textContent=dateLabel;
+
+function buildSchedule(){
+  const el=document.getElementById('schedItems');
+  const items=[
+    isWeekday?{label:'Pondel Law Firm',time:'1:00–4:00pm',color:'#4A90C4'}:null,
+    isWed?{label:'Law & Storytelling — Eric Lane',time:'6:30–9:30pm',color:'#0F6E56'}:null,
+    isSun?{label:'BA + PR assignments due',time:'11:59pm',color:'#8B3A52'}:null,
+  ].filter(Boolean);
+  el.innerHTML='';
+  if(!items.length){el.innerHTML='<div class="loading">No fixed schedule today</div>';return}
+  items.forEach(i=>{el.innerHTML+=`<div class="item"><div class="dot" style="background:${i.color}"></div><span>${i.label} — ${i.time}</span></div>`});
+}
+buildSchedule();
+
+const REMS=['Pro bono next meeting: Tuesday','BA + PR assignments due every Sunday 11:59pm','🚫 PR: zero AI policy — all work must be your own'];
+document.getElementById('remItems').innerHTML=REMS.map(r=>`<div class="item"><div class="dot" style="background:#8B3A52"></div><span>${r}</span></div>`).join('');
+
+let notionData={ba:[],pr:[],master:[]};
+
+async function fetchFromNotion(){
+  const el=document.getElementById('notionItems');
+  el.innerHTML='<div class="loading">Fetching from Notion...</div>';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:2000,
+        system:'You are a data retrieval assistant. Query the Notion databases and return open/unchecked to-do items as JSON only. No markdown fences, no explanation. Format: {"ba":["task1","task2"],"pr":["task1","task2"],"master":["task1","task2"],"directed":["task1","task2"]}',
+        messages:[{role:'user',content:`Today is ${dateLabel}. Get all open/unchecked items from these Notion databases:\n1. BA To-Dos: https://www.notion.so/b7efbeb5fccc4fb8a75b29ccf8686805\n2. PR To-Dos: https://www.notion.so/f979c6d14d084737b7163ba6b9f79723\n3. Master Dashboard tasks: https://www.notion.so/34fe7566e74b80eaac77da762ae0b44c\n4. Directed Study project system: https://www.notion.so/cb9aa9e06dae4f12b51faa35d38d281a\n\nReturn JSON only, no markdown: {"ba":["task"],"pr":["task"],"master":["task"],"directed":["task"]}`}],
+        mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]
+      })
+    });
+    const data=await res.json();
+    const txt=data.content?.find(b=>b.type==='text')?.text||'{}';
+    notionData=JSON.parse(txt.replace(/```[a-z]*|```/g,'').trim());
+    renderNotion();
+  }catch(e){
+    el.innerHTML='<div class="loading">Could not load from Notion — try refreshing.</div>';
+  }
+}
+
+function renderNotion(){
+  const el=document.getElementById('notionItems');el.innerHTML='';
+  const cfg=[
+    {key:'ba',label:'BA',color:'#2C6E6A'},
+    {key:'pr',label:'PR',color:'#8B3A52'},
+    {key:'directed',label:'Directed Study',color:'#1C3557'},
+    {key:'master',label:'Action',color:'#B8860B'},
+  ];
+  let hasItems=false;
+  cfg.forEach(c=>{
+    (notionData[c.key]||[]).forEach(item=>{
+      hasItems=true;
+      el.innerHTML+=`<div class="item"><div class="dot" style="background:${c.color}"></div><span>${item}</span><span class="tag">${c.label}</span></div>`;
+    });
+  });
+  if(!hasItems) el.innerHTML='<div class="loading">No open items found — all caught up! ✓</div>';
+}
+
+fetchFromNotion();
+document.getElementById('refreshBtn').addEventListener('click',fetchFromNotion);
+
+function setStatus(msg,err){const el=document.getElementById('status');el.textContent=msg;el.style.color=err?'#8B3A52':'#8A8578'}
+function animProg(pct){document.getElementById('prog').style.display='block';document.getElementById('progbar').style.width=pct+'%'}
+
+document.getElementById('genBtn').addEventListener('click',async()=>{
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true;btn.textContent='Generating...';animProg(15);setStatus('Writing your brief...');
+  const notes=document.getElementById('notes').value.trim();
+  const sched=[isWeekday?'1:00–4:00pm — Pondel Law Firm':null,isWed?'6:30–9:30pm — Law & Storytelling (Eric Lane)':null].filter(Boolean).join('\n')||'No fixed schedule today';
+  // Law & Storytelling next class
+  const LS_DATES=['2026-05-20','2026-05-27','2026-06-03','2026-06-10','2026-06-17','2026-06-24','2026-07-01','2026-07-08','2026-07-15','2026-07-22'];
+  const nextLS=LS_DATES.find(d=>d>=todayStr);
+  const lsNote=nextLS?'Next class: '+new Date(nextLS+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric'})+' — Wed 6:30–9:30pm (Eric Lane)':(todayStr>='2026-05-20'?'Course underway — check syllabus':'Starts May 20');
+
+  const prompt=`Write a morning brief for Kristin, a law student in Los Angeles. Today is ${dateLabel}.\n\nToday's schedule:\n${sched}\n\nBA open to-do's:\n${(notionData.ba||[]).map(t=>'- '+t).join('\n')||'- None'}\n\nPR open to-do's:\n${(notionData.pr||[]).map(t=>'- '+t).join('\n')||'- None'}\n\nDirected Study open items:\n${(notionData.directed||[]).map(t=>'- '+t).join('\n')||'- None'}\n\nLaw & Storytelling:\n- ${lsNote}\n\nOther action items:\n${(notionData.master||[]).map(t=>'- '+t).join('\n')||'- None'}\n\nReminders:\n- Pro bono next meeting: Tuesday\n- BA + PR assignments due every Sunday 11:59pm\n- PR: zero AI policy\n\nAdditional notes:\n${notes||'None'}\n\nWrite a focused, warm morning brief in Notion markdown. Include: one-sentence framing, today's schedule, BA this week, PR this week, directed study, law & storytelling, other action items, reminders, one closing thought. Use Kristin's name once. No H1 title. Use ## headers.`;
+  try{
+    animProg(40);
+    const r1=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'Write morning briefs in Notion markdown. Warm, direct, no preamble.',messages:[{role:'user',content:prompt}]})});
+    animProg(70);
+    const d1=await r1.json();
+    const briefText=d1.content?.find(b=>b.type==='text')?.text||'';
+    if(!briefText){setStatus('No content returned.',true);btn.disabled=false;btn.textContent='Generate & Push to Notion';return}
+    const full='---\n\n*'+dateLabel+' · Los Angeles*\n\n'+briefText;
+    await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'Update Notion pages via MCP.',messages:[{role:'user',content:'Update Notion page 351e7566-e74b-81d0-8148-de26c8504c7b, replace content with:\n\n'+full}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});
+    animProg(100);setStatus('Brief pushed to Notion ✓');
+    btn.disabled=false;btn.textContent='Generate & Push to Notion';
+    setTimeout(()=>{document.getElementById('prog').style.display='none'},1400);
+  }catch(e){
+    setStatus('Something went wrong — try again.',true);
+    btn.disabled=false;btn.textContent='Generate & Push to Notion';
+    document.getElementById('prog').style.display='none';
+  }
+});
+</script>
+</body>
+</html>
