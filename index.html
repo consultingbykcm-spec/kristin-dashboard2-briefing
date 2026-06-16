@@ -398,6 +398,34 @@ const DEF_TASKS=[
 ];
 const DEF_REMINDERS=['Pro bono next meeting: Tuesday','Both BA & PR: assignments due every Sunday 11:59pm','🚫 PR: zero AI policy — all work must be your own'];
 
+
+// ── NOTION SYNC ──────────────────────────────────────
+let notionTasks = null;
+
+async function loadNotionTasks() {
+  try {
+    const res = await fetch('notion-data.json?_=' + Date.now());
+    if (!res.ok) throw new Error('no data file');
+    const data = await res.json();
+    // Flatten all databases into one list, skip done items
+    const all = [];
+    const labels = {ba:'BA',pr:'PR',master:'Dashboard',lawlit:'Law & Lit',directed:'Directed Study'};
+    for (const [key, items] of Object.entries(data)) {
+      for (const item of items) {
+        if (!item.done && item.text && item.text !== '(untitled)') {
+          all.push({id: key+'_'+Math.random(), text: item.text, tag: labels[key]||key, done: false});
+        }
+      }
+    }
+    if (all.length > 0) {
+      notionTasks = all;
+      renderTasks();
+    }
+  } catch(e) {
+    // Notion data not available yet — fall back to localStorage tasks
+  }
+}
+
 // ── STATE ──────────────────────────────────────────────
 const now=new Date();
 const todayStr=now.toISOString().slice(0,10);
@@ -506,10 +534,11 @@ document.getElementById('remIn').addEventListener('keydown',e=>{if(e.key==='Ente
 // ── TASKS ────────────────────────────────────────────
 function renderTasks(){
   const el=document.getElementById('taskList');el.innerHTML='';
-  const open=tasks.filter(t=>!t.done),done=tasks.filter(t=>t.done);
+  const src=notionTasks||tasks;
+  const open=src.filter(t=>!t.done),done=src.filter(t=>t.done);
   document.getElementById('taskCount').textContent=open.length+' open';
   [...open,...done].forEach(t=>{
-    const idx=tasks.findIndex(x=>x.id===t.id);
+    const idx=src.findIndex(x=>x.id===t.id);
     const row=document.createElement('div');row.className='task-item';
     const chk=document.createElement('div');chk.className='chk'+(t.done?' done':'');
     chk.addEventListener('click',()=>{tasks[idx].done=!tasks[idx].done;saveT();renderTasks()});
@@ -592,6 +621,7 @@ document.querySelectorAll('.course-tab').forEach(tab=>{
 // ── INIT ─────────────────────────────────────────────
 renderQuote();
 renderWeekGlance();
+loadNotionTasks();
 buildSchedule();
 renderReminders();
 renderTasks();
