@@ -71,6 +71,73 @@
       "done": false
     }
   ],
-  "lawlit": [],
+  "lawlit": [
+    {
+      "text": "Week 3 - June 10 — Statutory",
+      "due": "2026-06-10",
+      "type": "",
+      "done": true
+    },
+    {
+      "text": "Week 5 Another look at Freedom — Paper",
+      "due": "2026-06-24",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "N/A — N/A - No Assignment",
+      "due": "2026-07-01",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "Week 7 Another view — Paper",
+      "due": "2026-07-08",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "Week 8 Curtailment of freedom — Paper",
+      "due": "2026-07-15",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "Week 9 Not everyone thinks alike — Paper",
+      "due": "2026-07-22",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "Week 10 the road to freedom — Paper",
+      "due": "2026-07-29",
+      "type": "",
+      "done": false
+    },
+    {
+      "text": "Week 4 What can be against the law again — Paper",
+      "due": "2026-06-17",
+      "type": "",
+      "done": true
+    },
+    {
+      "text": "Week 3 What is law — Paper",
+      "due": "2026-06-10",
+      "type": "",
+      "done": true
+    },
+    {
+      "text": "What is Freedom — Paper",
+      "due": "2026-05-27",
+      "type": "",
+      "done": true
+    },
+    {
+      "text": "Professor Sylabus — Program Learning Outcomes",
+      "due": "2026-05-20",
+      "type": "",
+      "done": true
+    }
+  ],
   "directed": []
 }
