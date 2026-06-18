@@ -284,7 +284,6 @@ button:hover{background:var(--cream)}
 
       <div class="course-panel" id="panel-pr">
         <div style="font-size:11px;color:var(--warm-gray);margin-bottom:6px">Assoc. Dean April Vincent · 3 units · Midterm 15% + Final 85%</div>
-        <div class="ai-warning">🚫 <strong>Zero AI policy</strong> — all work must be entirely your own.</div>
         <div class="week-nav">
           <div><div class="week-label" id="pr-wk-label">Week 1</div><div class="week-dates" id="pr-wk-dates"></div></div>
           <div class="week-btns"><button class="week-btn" id="pr-prev">← Prev</button><button class="week-btn" id="pr-next">Next →</button></div>
@@ -595,25 +594,48 @@ function renderLS(){
   const dEl=document.getElementById('ls-dates');dEl.innerHTML='';
   LS_DATES.forEach(d=>{dEl.innerHTML+=`<div class="ls-date-item">${d} · Wed 6:30–9:30pm</div>`});
   const aEl=document.getElementById('ls-assigns');aEl.innerHTML='';
-  // Use Notion data if available, otherwise fall back to localStorage
-  const source = (window._notionLawlit && window._notionLawlit.length) ? window._notionLawlit : lsAssigns;
-  const isNotion = !!(window._notionLawlit && window._notionLawlit.length);
-  if(!source.length){aEl.innerHTML='<div class="empty-state">Syllabus coming soon — add readings below</div>';return}
-  source.forEach((a,i)=>{
+
+  if(window._notionLawlit && window._notionLawlit.length){
+    // Find current week's assignment based on today's date
+    const today = new Date();
+    // Filter to upcoming/current items only — not done, and due date >= today or no due date
+    const upcoming = window._notionLawlit.filter(a => {
+      if(a.done) return false;
+      if(a.text.startsWith('N/A')) return false;
+      if(!a.due) return true;
+      return new Date(a.due) >= new Date(today.toISOString().slice(0,10));
+    });
+    // Sort by due date
+    upcoming.sort((a,b) => {
+      if(!a.due) return 1;
+      if(!b.due) return -1;
+      return new Date(a.due) - new Date(b.due);
+    });
+    // Show only next 2 upcoming
+    const toShow = upcoming.slice(0, 2);
+    if(!toShow.length){aEl.innerHTML='<div class="empty-state">No upcoming assignments</div>';return}
+    toShow.forEach(a=>{
+      const row=document.createElement('div');row.className='task-item';
+      const chk=document.createElement('div');chk.className='chk';
+      const body=document.createElement('div');body.className='task-body';
+      const sub = a.due ? `<div class="task-sub">Due: ${a.due}</div>` : '';
+      body.innerHTML=`<div class="task-text">${a.text}</div>${sub}`;
+      row.appendChild(chk);row.appendChild(body);aEl.appendChild(row);
+    });
+    return;
+  }
+
+  // Fall back to localStorage
+  if(!lsAssigns.length){aEl.innerHTML='<div class="empty-state">Syllabus coming soon — add readings below</div>';return}
+  lsAssigns.forEach((a,i)=>{
     const row=document.createElement('div');row.className='task-item';
     const chk=document.createElement('div');chk.className='chk'+(a.done?' done':'');
-    if(!isNotion) chk.addEventListener('click',()=>{lsAssigns[i].done=!a.done;saveLS();renderLS()});
+    chk.addEventListener('click',()=>{lsAssigns[i].done=!a.done;saveLS();renderLS()});
     const body=document.createElement('div');body.className='task-body';
-    let sub = a.due ? `<div class="task-sub">Due: ${a.due}</div>` : '';
-    if(a.type) sub += `<div class="task-sub">${a.type}</div>`;
-    body.innerHTML=`<div class="task-text${a.done?' done':''}">${a.text}</div>${sub}`;
-    row.appendChild(chk);row.appendChild(body);
-    if(!isNotion){
-      const del=document.createElement('button');del.className='rem-del';del.textContent='×';del.style.marginLeft='auto';
-      del.addEventListener('click',()=>{lsAssigns.splice(i,1);saveLS();renderLS()});
-      row.appendChild(del);
-    }
-    aEl.appendChild(row);
+    const del=document.createElement('button');del.className='rem-del';del.textContent='×';del.style.marginLeft='auto';
+    del.addEventListener('click',()=>{lsAssigns.splice(i,1);saveLS();renderLS()});
+    body.innerHTML=`<div class="task-text${a.done?' done':''}">${a.text}</div>`;
+    row.appendChild(chk);row.appendChild(body);row.appendChild(del);aEl.appendChild(row);
   });
 }
 document.getElementById('ls-add-btn').addEventListener('click',()=>{
