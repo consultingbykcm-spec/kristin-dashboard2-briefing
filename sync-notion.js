@@ -38,6 +38,16 @@ function notionRequest(path, body) {
   });
 }
 
+function getText(prop) {
+  if (!prop) return '';
+  if (prop.type === 'title') return prop.title.map(t => t.plain_text).join('');
+  if (prop.type === 'rich_text') return prop.rich_text.map(t => t.plain_text).join('');
+  if (prop.type === 'number') return prop.number != null ? String(prop.number) : '';
+  if (prop.type === 'select') return prop.select?.name || '';
+  if (prop.type === 'date') return prop.date?.start || '';
+  return '';
+}
+
 function getTitle(page) {
   const props = page.properties;
   for (const key of Object.keys(props)) {
@@ -62,7 +72,19 @@ function isDone(page) {
   return false;
 }
 
-async function queryDB(dbId) {
+function parseLawlit(page) {
+  const props = page.properties;
+  const topic = getText(props['Topic']);
+  const task = getText(props['Task']);
+  const type = getText(props['Type']);
+  const dueDate = getText(props['Due Date']);
+  const statusName = (props['Status']?.status?.name || '').toLowerCase();
+  const done = statusName === 'done' || statusName === 'complete' || statusName === 'completed';
+  const label = [topic, task].filter(Boolean).join(' — ');
+  return { text: label || '(untitled)', due: dueDate, type, done };
+}
+
+async function queryDB(dbId, isLawlit) {
   const results = [];
   let cursor = undefined;
   do {
@@ -74,7 +96,11 @@ async function queryDB(dbId) {
       return [];
     }
     for (const page of (res.results || [])) {
-      results.push({ text: getTitle(page), done: isDone(page) });
+      if (isLawlit) {
+        results.push(parseLawlit(page));
+      } else {
+        results.push({ text: getTitle(page), done: isDone(page) });
+      }
     }
     cursor = res.has_more ? res.next_cursor : undefined;
   } while (cursor);
@@ -86,7 +112,7 @@ async function main() {
   const data = {};
   for (const [key, id] of Object.entries(DB_IDS)) {
     console.log(`  Fetching ${key}...`);
-    data[key] = await queryDB(id);
+    data[key] = await queryDB(id, key === 'lawlit');
     console.log(`  -> ${data[key].length} items`);
   }
   fs.writeFileSync('notion-data.json', JSON.stringify(data, null, 2));
