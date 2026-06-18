@@ -407,9 +407,11 @@ async function loadNotionTasks() {
     if (!res.ok) throw new Error('no data file');
     const data = await res.json();
     // Flatten all databases into one list, skip done items
+    // lawlit is handled separately in the courses tab
     const all = [];
-    const labels = {ba:'BA',pr:'PR',master:'Dashboard',lawlit:'Law & Lit',directed:'Directed Study'};
+    const labels = {ba:'BA',pr:'PR',master:'Dashboard',directed:'Directed Study'};
     for (const [key, items] of Object.entries(data)) {
+      if (key === 'lawlit') continue;
       for (const item of items) {
         if (!item.done && item.text && item.text !== '(untitled)') {
           all.push({id: key+'_'+Math.random(), text: item.text, tag: labels[key]||key, done: false});
