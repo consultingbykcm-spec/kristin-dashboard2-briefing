@@ -6,7 +6,7 @@ const DB_IDS = {
   ba:       '355e7566e74b815899cfe47f46e04f25',
   pr:       '355e7566e74b814ea9a4e0e5fef2eb12',
   master:   '35ae7566e74b81a09d81cdefac0c90b6',
-  lawlit:   '345e7566e74b80fdacafcb8defb9171d',
+  lawlit:   '366e7566e74b806da1a9dfc2a70cdd99',
   directed: 'd04599a832c0455fbfc4599bb226229d',
 };
 
