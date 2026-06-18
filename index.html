@@ -155,7 +155,7 @@ button:hover{background:var(--cream)}
   <!-- HEADER -->
   <header class="header">
     <div>
-      <div class="greeting">Good morning,</div>
+      <div class="greeting" id="greeting">Good morning,</div>
       <div class="name">Kristin</div>
       <div class="tagline">Law Student · Writer · Advocate</div>
     </div>
@@ -464,6 +464,13 @@ function updateClock(){
   const ap=h>=12?'pm':'am',dh=h%12||12;
   document.getElementById('clock').textContent=dh+':'+(m<10?'0':'')+m+' '+ap;
 }
+function getGreeting(){
+  const h=new Date().getHours();
+  if(h>=4&&h<12) return 'Good morning,';
+  if(h>=12&&h<18) return 'Good afternoon,';
+  return 'Good evening,';
+}
+document.getElementById('greeting').textContent=getGreeting();
 document.getElementById('dateline').textContent=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
 document.getElementById('todayDay').textContent=DAYS[now.getDay()];
 updateClock();setInterval(updateClock,15000);
