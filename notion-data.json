@@ -3,6 +3,10 @@
   "pr": [],
   "master": [
     {
+      "text": "Thoughts - Control - DS",
+      "done": false
+    },
+    {
       "text": "Sienna",
       "done": false
     },
@@ -82,13 +86,7 @@
       "text": "Week 5 Another look at Freedom — Paper",
       "due": "2026-06-24",
       "type": "",
-      "done": false
-    },
-    {
-      "text": "N/A — N/A - No Assignment",
-      "due": "2026-07-01",
-      "type": "",
-      "done": false
+      "done": true
     },
     {
       "text": "Week 7 Another view — Paper",
