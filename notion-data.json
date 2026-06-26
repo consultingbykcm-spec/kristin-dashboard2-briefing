@@ -3,6 +3,10 @@
   "pr": [],
   "master": [
     {
+      "text": "Add to Paper",
+      "done": false
+    },
+    {
       "text": "Thoughts - Control - DS",
       "done": false
     },
@@ -15,19 +19,7 @@
       "done": false
     },
     {
-      "text": "Bills",
-      "done": false
-    },
-    {
-      "text": "Hillary Clinton Article",
-      "done": false
-    },
-    {
       "text": "Add Hillary back into paper ",
-      "done": false
-    },
-    {
-      "text": "Controlling",
       "done": false
     },
     {
@@ -101,14 +93,14 @@
       "done": false
     },
     {
-      "text": "Week 9 Not everyone thinks alike — Paper",
-      "due": "2026-07-22",
+      "text": "Week 6 (Moved From Week 9) Not everyone thinks alike — Paper",
+      "due": "2026-07-01",
       "type": "",
       "done": false
     },
     {
       "text": "Week 10 the road to freedom — Paper",
-      "due": "2026-07-29",
+      "due": "2026-07-22",
       "type": "",
       "done": false
     },
