@@ -3,7 +3,7 @@
   "pr": [],
   "master": [
     {
-      "text": "Add to Paper",
+      "text": "Add to Paper: Why Roe ",
       "done": false
     },
     {
@@ -16,7 +16,7 @@
     },
     {
       "text": "Week 1-6",
-      "done": false
+      "done": true
     },
     {
       "text": "Add Hillary back into paper ",
@@ -68,6 +68,12 @@
     }
   ],
   "lawlit": [
+    {
+      "text": "Tiny, Smiling Daddy – Mary Gaitskill — Reading Material",
+      "due": "2026-07-01",
+      "type": "",
+      "done": false
+    },
     {
       "text": "Week 3 - June 10 — Statutory",
       "due": "2026-06-10",
