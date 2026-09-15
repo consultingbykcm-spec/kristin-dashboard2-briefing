@@ -107,7 +107,15 @@ async function queryDB(dbId, type) {
         const p = parseCxkcm(page);
         if (p.status === 'In Progress' && p.text) results.push(p);
       } else {
-        results.push({ text: getTitle(page), done: isDone(page) });
+        const props = page.properties;
+        results.push({
+          id: page.id,
+          text: getTitle(page),
+          done: isDone(page),
+          tag: getText(props['Category']) || '',
+          urgency: getText(props['Urgency Level']) || '',
+          due: getText(props['Due Date']) || '',
+        });
       }
     }
     cursor = res.has_more ? res.next_cursor : undefined;
