@@ -108,10 +108,11 @@ async function queryDB(dbId, type) {
         if (p.status === 'In Progress' && p.text) results.push(p);
       } else {
         const props = page.properties;
-        results.push({
+        const done = isDone(page);
+        if (!done) results.push({
           id: page.id,
           text: getTitle(page),
-          done: isDone(page),
+          done: false,
           tag: getText(props['Category']) || '',
           urgency: getText(props['Urgency Level']) || '',
           due: getText(props['Due Date']) || '',
