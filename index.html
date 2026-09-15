@@ -79,16 +79,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charco
 .badge-sage{background:#EDF2EC;color:var(--accent-sage)}
 
 /* TASKS */
-.task-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--cream)}
-.task-item:last-child{border-bottom:none}
-.chk{width:16px;height:16px;border:1.5px solid var(--light-border);border-radius:4px;flex-shrink:0;cursor:pointer;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:var(--cream);transition:background 0.15s}
+.task-item:hover{background:#ede8df}
+.task-item:last-child{margin-bottom:0}
+.chk{width:17px;height:17px;border:1.5px solid var(--light-border);border-radius:4px;flex-shrink:0;cursor:pointer;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;background:var(--card-bg)}
 .chk:hover{border-color:var(--accent-teal)}
 .chk.done{background:var(--accent-teal);border-color:var(--accent-teal)}
 .chk.done::after{content:'';width:8px;height:5px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px);display:block}
-.task-body{flex:1}
+.task-body{flex:1;min-width:0}
 .task-text{font-size:13px;color:var(--charcoal);line-height:1.45}
 .task-text.done{color:var(--warm-gray);text-decoration:line-through}
-.task-sub{font-size:11px;color:var(--warm-gray);margin-top:1px}
+.task-sub{font-size:10px;color:var(--warm-gray);margin-top:2px}
+.task-tag{display:inline-block;font-size:9px;font-weight:600;padding:1px 6px;border-radius:10px;text-transform:uppercase;letter-spacing:0.04em;margin-right:4px}
+.task-progress{height:4px;background:var(--light-border);border-radius:2px;margin-bottom:10px;overflow:hidden}
+.task-progress-fill{height:100%;background:var(--accent-teal);border-radius:2px;transition:width 0.4s ease}
 
 /* SCHEDULE */
 .sched-item{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--cream);align-items:baseline}
@@ -197,7 +201,7 @@ button:hover{background:var(--cream)}
     <span class="pill pill-work">Pondel 1–4pm daily (M–F)</span>
     <span class="pill pill-school">Fall 2026 · Capstone + Bar Studies</span>
     <span class="pill pill-school">Classes start Aug 24 · Syllabus Aug 22</span>
-    <span class="pill pill-law">School Pro Bono — new requirement</span>
+    <span class="pill pill-law">School Internship · Ventura Legal Aid Clinic</span>
     <span class="pill pill-book">DS → Journal entry w/ Dean</span>
   </div>
 
@@ -241,8 +245,8 @@ button:hover{background:var(--cream)}
             <div class="project-next">Barbri · UWorld · Fleming's · Themis (MPRE) · Ends Dec 5–6</div>
           </div>
           <div class="project-item">
-            <div class="project-name">🤝 School Pro Bono</div>
-            <div class="project-next">New school requirement</div>
+            <div class="project-name">🤝 Pro Bono</div>
+            <div class="project-next">School Internship · Ventura Legal Aid Clinic</div>
           </div>
           <div class="project-item">
             <div class="project-name">📖 Directed Study → Journal</div>
@@ -501,16 +505,37 @@ document.getElementById('remAdd').addEventListener('click',()=>{
 document.getElementById('remIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('remAdd').click()});
 
 // ── TASKS ────────────────────────────────────────────
+const TAG_COLORS={
+  'School':'background:#E6F1FB;color:#0C447C',
+  'Law':'background:#FBEAF0;color:#72243E',
+  'Work':'background:#FAEEDA;color:#633806',
+  'Book':'background:#E1F5EE;color:#085041',
+  'Dashboard':'background:#EDF2EC;color:#2E5128',
+  'Nonprofit':'background:#F3EEFF;color:#5B2DA8',
+  'default':'background:#F0EDE8;color:#5A5550',
+};
+function taskTagStyle(tag){return TAG_COLORS[tag]||TAG_COLORS.default}
+
 function renderTasks(){
   const el=document.getElementById('taskList');el.innerHTML='';
   const src=notionTasks||tasks;
   const open=src.filter(t=>!t.done),done=src.filter(t=>t.done);
-  document.getElementById('taskCount').textContent=open.length+' open';
+  const total=src.length,doneCount=done.length;
+  const pct=total?Math.round(doneCount/total*100):0;
+  document.getElementById('taskCount').textContent=`${open.length} open · ${pct}% done`;
+
+  // progress bar
+  const bar=document.createElement('div');bar.className='task-progress';
+  bar.innerHTML=`<div class="task-progress-fill" style="width:${pct}%"></div>`;
+  el.appendChild(bar);
+
+  if(!src.length){el.innerHTML+='<div class="empty-state">No action items</div>';return}
   [...open,...done].forEach(t=>{
     const row=document.createElement('div');row.className='task-item';
     const chk=document.createElement('div');chk.className='chk'+(t.done?' done':'');
     const body=document.createElement('div');body.className='task-body';
-    body.innerHTML=`<div class="task-text${t.done?' done':''}">${t.text}</div><div class="task-sub">${t.tag||''}</div>`;
+    const tagHtml=t.tag?`<span class="task-tag" style="${taskTagStyle(t.tag)}">${t.tag}</span>`:'';
+    body.innerHTML=`<div class="task-text${t.done?' done':''}">${t.text}</div><div class="task-sub">${tagHtml}</div>`;
     row.appendChild(chk);row.appendChild(body);el.appendChild(row);
   });
 }
