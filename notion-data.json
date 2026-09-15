@@ -1,152 +1,84 @@
 {
   "master": [
     {
+      "id": "048d24b3-918a-43bb-a63c-3327fbd9df75",
       "text": "Sunday Vargas Check In",
-      "done": false
+      "done": false,
+      "tag": "Legal Aid Internship",
+      "urgency": "High",
+      "due": "2026-09-20T14:00:00.000-07:00"
     },
     {
-      "text": "Internship Class",
-      "done": true
-    },
-    {
+      "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
       "text": "Clinic Dates",
-      "done": false
+      "done": false,
+      "tag": "Legal Aid Internship",
+      "urgency": "High",
+      "due": "2026-09-15T16:30:00.000-07:00"
     },
     {
-      "text": "Social Media Posts",
-      "done": true
-    },
-    {
-      "text": "KDP Soft Cover Launch — Ferlina",
-      "done": true
-    },
-    {
-      "text": "Program Manager Meeting",
-      "done": true
-    },
-    {
+      "id": "3c9e7566-e74b-8158-ab32-f6b4f364c0d9",
       "text": "DS Paper Revision — Professor Lane",
-      "done": false
+      "done": false,
+      "tag": "Directed Study Research",
+      "urgency": "High",
+      "due": "2026-09-16T09:00:00.000-07:00"
     },
     {
-      "text": "Pro Bono Placement",
-      "done": true
-    },
-    {
+      "id": "3c9e7566-e74b-81c6-9490-f22503a06534",
       "text": "IRS 1023-EZ — 501(c)(3) Application",
-      "done": false
+      "done": false,
+      "tag": "Consulting by KCM",
+      "urgency": "Med",
+      "due": "2026-09-07T00:00:00.000-07:00"
     },
     {
-      "text": "Ingram Spark Hard Cover — Ferlina",
-      "done": true
-    },
-    {
+      "id": "3c9e7566-e74b-81fc-a3f2-c9ad04ccccba",
       "text": "LegalMinds Game — Weekly Build",
-      "done": false
+      "done": false,
+      "tag": "Consulting by KCM",
+      "urgency": "Med",
+      "due": "2026-09-11T18:00:00.000-07:00"
     },
     {
+      "id": "3bfe7566-e74b-8146-9903-c5478ebc4d9c",
       "text": "Civil Rights Trail Book",
-      "done": false
+      "done": false,
+      "tag": "",
+      "urgency": "Med",
+      "due": "2026-09-12T02:22:00.000-07:00"
     },
     {
+      "id": "3bde7566-e74b-80d3-8fa6-d97660bc19f1",
       "text": "Publish CCTB",
-      "done": false
+      "done": false,
+      "tag": "Consulting by KCM",
+      "urgency": "Med",
+      "due": "2026-09-02"
     },
     {
-      "text": "Email K. Kaine - Scholarships",
-      "done": true
-    },
-    {
+      "id": "3b6e7566-e74b-81f3-8502-da51033e3ae2",
       "text": "We are Good Trouble",
-      "done": false
+      "done": false,
+      "tag": "Law School",
+      "urgency": "Med",
+      "due": "2026-09-16"
     },
     {
-      "text": "KDP",
-      "done": true
-    },
-    {
+      "id": "3b6e7566-e74b-8102-aa23-fc23b38c04bf",
       "text": "Pinsites",
-      "done": false
+      "done": false,
+      "tag": "Law School",
+      "urgency": "High",
+      "due": "2026-09-16T20:00:00.000-07:00"
     },
     {
-      "text": "7-Days to Final ",
-      "done": true
-    },
-    {
-      "text": "Law and Lit Paper",
-      "done": true
-    },
-    {
-      "text": "For Paper: Question re: Congress?",
-      "done": true
-    },
-    {
-      "text": "Upated Punch List: DS",
-      "done": true
-    },
-    {
-      "text": "Equality. Justice. Change. ",
-      "done": true
-    },
-    {
-      "text": "Add to Paper: Why Roe ",
-      "done": true
-    },
-    {
-      "text": "Thoughts - Control - DS",
-      "done": true
-    },
-    {
+      "id": "383e7566-e74b-8108-a36d-dbe58ff72910",
       "text": "Sienna",
-      "done": false
-    },
-    {
-      "text": "Week 1-6",
-      "done": true
-    },
-    {
-      "text": "Add Hillary back into paper ",
-      "done": true
-    },
-    {
-      "text": "Belle Burden’s “Strangers”",
-      "done": true
-    },
-    {
-      "text": "Fwd: MPRE Update",
-      "done": true
-    },
-    {
-      "text": "Download Primary Cases",
-      "done": true
-    },
-    {
-      "text": "Pull Info on 2 Cases",
-      "done": true
-    },
-    {
-      "text": "New Draft for DS",
-      "done": true
-    },
-    {
-      "text": "Team members ",
-      "done": true
-    },
-    {
-      "text": "4 Week outline and benchmarks",
-      "done": true
-    },
-    {
-      "text": "Allie & Bonnie",
-      "done": true
-    },
-    {
-      "text": "Certified Law Student",
-      "done": true
-    },
-    {
-      "text": "Visual Blog",
-      "done": true
+      "done": false,
+      "tag": "Consulting by KCM",
+      "urgency": "High",
+      "due": "2026-09-16T12:00:00.000-07:00"
     }
   ],
   "lawlit": [
