@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const { pageId, completed } = req.body;
   if (!pageId) return res.status(400).json({ error: 'pageId required' });
 
-  const token = process.env.NOTION_TOKEN;
+  const token = process.env.notion || process.env.NOTION_TOKEN;
   if (!token) return res.status(500).json({ error: 'NOTION_TOKEN not configured' });
 
   const r = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {

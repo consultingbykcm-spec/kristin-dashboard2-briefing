@@ -21,7 +21,7 @@ jobs:
           node-version: "20"
       - run: node sync-notion.js
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_TOKEN: ${{ secrets.NOTION || secrets.NOTION_TOKEN }}
       - name: Commit data file
         run: |
           git config user.name "github-actions[bot]"
