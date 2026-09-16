@@ -1,6 +1,14 @@
 {
   "master": [
     {
+      "id": "3dde7566-e74b-8146-a60a-f69ce25c448f",
+      "text": "Sarah Corey - Finish Resume",
+      "done": false,
+      "tag": "",
+      "urgency": "",
+      "due": ""
+    },
+    {
       "id": "048d24b3-918a-43bb-a63c-3327fbd9df75",
       "text": "Sunday Vargas Check In",
       "done": false,
@@ -14,7 +22,7 @@
       "done": false,
       "tag": "Legal Aid Internship",
       "urgency": "High",
-      "due": "2026-09-15T16:30:00.000-07:00"
+      "due": "2026-10-06T16:30:00.000-07:00"
     },
     {
       "id": "3c9e7566-e74b-8158-ab32-f6b4f364c0d9",
