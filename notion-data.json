@@ -5,16 +5,16 @@
       "text": "Contracts for Benefits",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-09-20"
     },
     {
       "id": "3dfe7566-e74b-81e2-a702-edf3c00b3365",
-      "text": "Pondel Law",
+      "text": "Weekly/Daily Invoicing",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-09-20T10:00:00.000-07:00"
     },
     {
       "id": "3dde7566-e74b-8146-a60a-f69ce25c448f",
@@ -30,7 +30,7 @@
       "done": false,
       "tag": "Legal Aid Internship",
       "urgency": "High",
-      "due": "2026-09-20T14:00:00.000-07:00"
+      "due": "2026-09-20T16:00:00.000-07:00"
     },
     {
       "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
@@ -46,7 +46,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "Med",
-      "due": "2026-09-20T23:59:00.000-07:00"
+      "due": "2026-09-21T23:59:00.000-07:00"
     },
     {
       "id": "3c9e7566-e74b-81fc-a3f2-c9ad04ccccba",
@@ -86,7 +86,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "High",
-      "due": "2026-09-18T12:00:00.000-07:00"
+      "due": "2026-09-20T12:00:00.000-07:00"
     }
   ],
   "lawlit": [
