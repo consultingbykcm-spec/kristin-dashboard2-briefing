@@ -1,6 +1,14 @@
 {
   "master": [
     {
+      "id": "3e2e7566-e74b-8153-a0e8-e1447e23d09f",
+      "text": "Legal Minds",
+      "done": false,
+      "tag": "",
+      "urgency": "",
+      "due": ""
+    },
+    {
       "id": "3dfe7566-e74b-81a5-b6ff-df75e86c46d2",
       "text": "Contracts for Benefits",
       "done": false,
@@ -25,14 +33,6 @@
       "due": "2026-09-18T09:00:00.000-07:00"
     },
     {
-      "id": "048d24b3-918a-43bb-a63c-3327fbd9df75",
-      "text": "Sunday Vargas Check In",
-      "done": false,
-      "tag": "Legal Aid Internship",
-      "urgency": "High",
-      "due": "2026-09-20T16:00:00.000-07:00"
-    },
-    {
       "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
       "text": "Clinic Dates",
       "done": false,
@@ -54,7 +54,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "Med",
-      "due": "2026-09-11T18:00:00.000-07:00"
+      "due": "2026-09-23T18:00:00.000-07:00"
     },
     {
       "id": "3bfe7566-e74b-8146-9903-c5478ebc4d9c",
@@ -78,7 +78,7 @@
       "done": false,
       "tag": "Law School",
       "urgency": "Med",
-      "due": "2026-09-16"
+      "due": "2026-09-21T20:00:00.000-07:00"
     },
     {
       "id": "383e7566-e74b-8108-a36d-dbe58ff72910",
