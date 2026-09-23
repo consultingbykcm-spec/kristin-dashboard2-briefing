@@ -62,7 +62,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "Med",
-      "due": "2026-09-21T23:59:00.000-07:00"
+      "due": "2026-09-24T23:59:00.000-07:00"
     },
     {
       "id": "3c9e7566-e74b-81fc-a3f2-c9ad04ccccba",
@@ -94,15 +94,7 @@
       "done": false,
       "tag": "Law School",
       "urgency": "Med",
-      "due": "2026-09-21T20:00:00.000-07:00"
-    },
-    {
-      "id": "383e7566-e74b-8108-a36d-dbe58ff72910",
-      "text": "Sienna",
-      "done": false,
-      "tag": "Consulting by KCM",
-      "urgency": "High",
-      "due": "2026-09-20T12:00:00.000-07:00"
+      "due": "2026-09-22T21:00:00.000-07:00"
     }
   ],
   "lawlit": [
