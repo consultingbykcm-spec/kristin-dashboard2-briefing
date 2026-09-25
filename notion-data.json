@@ -62,15 +62,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "Med",
-      "due": "2026-09-24T23:59:00.000-07:00"
-    },
-    {
-      "id": "3c9e7566-e74b-81fc-a3f2-c9ad04ccccba",
-      "text": "LegalMinds Game — Weekly Build",
-      "done": false,
-      "tag": "Consulting by KCM",
-      "urgency": "Med",
-      "due": "2026-09-23T18:00:00.000-07:00"
+      "due": "2026-09-28T23:59:00.000-07:00"
     },
     {
       "id": "3bfe7566-e74b-8146-9903-c5478ebc4d9c",
