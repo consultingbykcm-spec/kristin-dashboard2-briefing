@@ -5,72 +5,48 @@
       "text": "Review To-Do Bills",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-02T09:00:00.000-07:00"
     },
     {
       "id": "3ece7566-e74b-812b-a1a7-f4e734c2948a",
       "text": "Ticket! Driving Ticket!",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-02"
     },
     {
       "id": "3ece7566-e74b-81f0-8f79-d78479329675",
       "text": "Fix Ferlina Hardcover",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-10-05"
     },
     {
       "id": "3ece7566-e74b-813f-a3ac-e70d589aec87",
       "text": "COL Shirts!",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
-    },
-    {
-      "id": "3e3e7566-e74b-81b4-9ed2-d13ab28af927",
-      "text": "Fwd: URGENT COMMUNICATION - Your Payment Was Declined",
-      "done": false,
-      "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-02T09:00:00.000-07:00"
     },
     {
       "id": "3e3e7566-e74b-815f-a223-e0a18484cdd1",
       "text": "Fwd: REMINDER:  Outstanding Balance",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-02"
     },
     {
       "id": "3e2e7566-e74b-8153-a0e8-e1447e23d09f",
       "text": "Legal Minds",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
-    },
-    {
-      "id": "3dfe7566-e74b-81a5-b6ff-df75e86c46d2",
-      "text": "Contracts for Benefits",
-      "done": false,
-      "tag": "",
       "urgency": "Med",
-      "due": "2026-09-20"
-    },
-    {
-      "id": "3dfe7566-e74b-81e2-a702-edf3c00b3365",
-      "text": "Weekly/Daily Invoicing",
-      "done": false,
-      "tag": "",
-      "urgency": "Med",
-      "due": "2026-09-20T10:00:00.000-07:00"
+      "due": "2026-10-09"
     },
     {
       "id": "3dde7566-e74b-8146-a60a-f69ce25c448f",
@@ -78,7 +54,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-09-28T09:00:00.000-07:00"
+      "due": "2026-10-05T09:00:00.000-07:00"
     },
     {
       "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
@@ -94,7 +70,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "Med",
-      "due": "2026-09-28T23:59:00.000-07:00"
+      "due": "2026-10-07T23:59:00.000-07:00"
     },
     {
       "id": "3bfe7566-e74b-8146-9903-c5478ebc4d9c",
@@ -102,14 +78,14 @@
       "done": false,
       "tag": "",
       "urgency": "Med",
-      "due": "2026-09-12T02:22:00.000-07:00"
+      "due": "2026-10-07T02:22:00.000-07:00"
     },
     {
       "id": "3bde7566-e74b-80d3-8fa6-d97660bc19f1",
       "text": "Publish CCTB",
       "done": false,
       "tag": "Consulting by KCM",
-      "urgency": "Med",
+      "urgency": "High",
       "due": "2026-09-02"
     }
   ],
