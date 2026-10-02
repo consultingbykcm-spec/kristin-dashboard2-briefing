@@ -1,6 +1,22 @@
 {
   "master": [
     {
+      "id": "3ede7566-e74b-814a-9226-e9b6d99e2951",
+      "text": "Lifestyle Planner!!!!",
+      "done": false,
+      "tag": "",
+      "urgency": "High",
+      "due": ""
+    },
+    {
+      "id": "3ede7566-e74b-818d-b05d-d5b05e9e6d67",
+      "text": "F AID!",
+      "done": false,
+      "tag": "",
+      "urgency": "Low",
+      "due": ""
+    },
+    {
       "id": "3ece7566-e74b-81fd-8d61-ec14abce033d",
       "text": "Review To-Do Bills",
       "done": false,
