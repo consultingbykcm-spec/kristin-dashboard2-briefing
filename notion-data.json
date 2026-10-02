@@ -1,6 +1,14 @@
 {
   "master": [
     {
+      "id": "3ede7566-e74b-81d9-8e19-d8ae0c311367",
+      "text": "Get SCOTUS Feud up and running (Legal Minds)",
+      "done": false,
+      "tag": "Consulting by KCM",
+      "urgency": "High",
+      "due": ""
+    },
+    {
       "id": "3ede7566-e74b-814a-9226-e9b6d99e2951",
       "text": "Lifestyle Planner!!!!",
       "done": false,
@@ -22,7 +30,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-02T09:00:00.000-07:00"
+      "due": "2026-10-03"
     },
     {
       "id": "3ece7566-e74b-812b-a1a7-f4e734c2948a",
@@ -46,13 +54,13 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-02T09:00:00.000-07:00"
+      "due": "2026-10-02"
     },
     {
       "id": "3e3e7566-e74b-815f-a223-e0a18484cdd1",
       "text": "Fwd: REMINDER:  Outstanding Balance",
       "done": false,
-      "tag": "",
+      "tag": "Law School",
       "urgency": "High",
       "due": "2026-10-02"
     },
@@ -70,7 +78,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-05T09:00:00.000-07:00"
+      "due": "2026-10-05"
     },
     {
       "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
@@ -85,8 +93,8 @@
       "text": "IRS 1023-EZ — 501(c)(3) Application",
       "done": false,
       "tag": "Consulting by KCM",
-      "urgency": "Med",
-      "due": "2026-10-07T23:59:00.000-07:00"
+      "urgency": "High",
+      "due": "2026-10-02"
     },
     {
       "id": "3bfe7566-e74b-8146-9903-c5478ebc4d9c",
@@ -102,7 +110,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "High",
-      "due": "2026-09-02"
+      "due": "2026-10-05"
     }
   ],
   "lawlit": [
