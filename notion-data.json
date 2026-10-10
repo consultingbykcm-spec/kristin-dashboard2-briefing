@@ -2,67 +2,43 @@
   "master": [
     {
       "id": "3f4e7566-e74b-8152-9d22-cca20850c2ac",
-      "text": "Allegedly",
+      "text": "Allegedly & Obama Letters",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-10-13"
     },
     {
       "id": "3f3e7566-e74b-813a-ab45-e47108a1d038",
       "text": "School Priorities",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-10"
     },
     {
       "id": "3f3e7566-e74b-812e-a617-ed75bb1cbe7e",
       "text": "Payment Plan for School",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
-    },
-    {
-      "id": "3f3e7566-e74b-8199-b3fd-c6994af5419c",
-      "text": "Pay Car 10/8",
-      "done": false,
-      "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-10-13"
     },
     {
       "id": "3f3e7566-e74b-816a-9e16-fb4974ba65cc",
       "text": "Subject is COL shirts",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
-    },
-    {
-      "id": "3f3e7566-e74b-81dc-80c5-d63166c61213",
-      "text": "Notion",
-      "done": false,
-      "tag": "",
-      "urgency": "",
-      "due": ""
-    },
-    {
-      "id": "3f3e7566-e74b-81f1-9285-f20b64852590",
-      "text": "Payment Plan for School",
-      "done": false,
-      "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-10"
     },
     {
       "id": "3f3e7566-e74b-810e-8649-fd0f88f7188b",
       "text": "Pay Car 10/8",
       "done": false,
       "tag": "",
-      "urgency": "",
-      "due": ""
+      "urgency": "High",
+      "due": "2026-10-10"
     },
     {
       "id": "3ede7566-e74b-81d9-8e19-d8ae0c311367",
@@ -70,7 +46,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "High",
-      "due": ""
+      "due": "2026-10-12"
     },
     {
       "id": "3ede7566-e74b-814a-9226-e9b6d99e2951",
@@ -78,15 +54,15 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": ""
+      "due": "2026-10-10"
     },
     {
       "id": "3ede7566-e74b-818d-b05d-d5b05e9e6d67",
       "text": "F AID!",
       "done": false,
       "tag": "",
-      "urgency": "Low",
-      "due": ""
+      "urgency": "Med",
+      "due": "2026-10-11"
     },
     {
       "id": "3ece7566-e74b-81fd-8d61-ec14abce033d",
