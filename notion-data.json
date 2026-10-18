@@ -1,28 +1,28 @@
 {
   "master": [
     {
+      "id": "3fde7566-e74b-801d-8b81-e02e10a6412c",
+      "text": "2 IRACS for Mertus Remain",
+      "done": false,
+      "tag": "",
+      "urgency": "High",
+      "due": "2026-10-21"
+    },
+    {
+      "id": "3fde7566-e74b-809a-b094-e0b6290ffa18",
+      "text": "VCLA - Final Hours",
+      "done": false,
+      "tag": "Legal Aid Internship",
+      "urgency": "High",
+      "due": "2026-10-18"
+    },
+    {
       "id": "3f4e7566-e74b-8152-9d22-cca20850c2ac",
       "text": "Allegedly & Obama Letters",
       "done": false,
       "tag": "",
       "urgency": "Med",
-      "due": "2026-10-13"
-    },
-    {
-      "id": "3f3e7566-e74b-812e-a617-ed75bb1cbe7e",
-      "text": "Payment Plan for School",
-      "done": false,
-      "tag": "",
-      "urgency": "Med",
-      "due": "2026-10-13"
-    },
-    {
-      "id": "3f3e7566-e74b-816a-9e16-fb4974ba65cc",
-      "text": "Subject is COL shirts",
-      "done": false,
-      "tag": "",
-      "urgency": "High",
-      "due": "2026-10-10"
+      "due": "2026-10-28"
     },
     {
       "id": "3f3e7566-e74b-810e-8649-fd0f88f7188b",
@@ -30,7 +30,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-15"
+      "due": "2026-10-19"
     },
     {
       "id": "3ede7566-e74b-81d9-8e19-d8ae0c311367",
@@ -38,7 +38,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "High",
-      "due": "2026-10-15"
+      "due": "2026-10-21"
     },
     {
       "id": "3ede7566-e74b-814a-9226-e9b6d99e2951",
@@ -46,7 +46,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-15"
+      "due": "2026-10-19"
     },
     {
       "id": "3ede7566-e74b-818d-b05d-d5b05e9e6d67",
@@ -54,7 +54,7 @@
       "done": false,
       "tag": "",
       "urgency": "Med",
-      "due": "2026-10-11"
+      "due": "2026-10-20"
     },
     {
       "id": "3ece7566-e74b-81fd-8d61-ec14abce033d",
@@ -62,7 +62,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-17"
+      "due": "2026-10-19"
     },
     {
       "id": "3ece7566-e74b-812b-a1a7-f4e734c2948a",
@@ -70,7 +70,7 @@
       "done": false,
       "tag": "",
       "urgency": "High",
-      "due": "2026-10-15"
+      "due": "2026-10-19"
     },
     {
       "id": "3ece7566-e74b-81f0-8f79-d78479329675",
@@ -78,7 +78,7 @@
       "done": false,
       "tag": "",
       "urgency": "Med",
-      "due": "2026-10-05"
+      "due": "2026-10-30"
     },
     {
       "id": "3e3e7566-e74b-815f-a223-e0a18484cdd1",
@@ -86,15 +86,7 @@
       "done": false,
       "tag": "Law School",
       "urgency": "High",
-      "due": "2026-10-15"
-    },
-    {
-      "id": "3cde7566-e74b-80d6-9bd9-c89247078b92",
-      "text": "Clinic Dates",
-      "done": false,
-      "tag": "Legal Aid Internship",
-      "urgency": "High",
-      "due": "2026-10-06T16:30:00.000-07:00"
+      "due": "2026-10-19"
     },
     {
       "id": "3c9e7566-e74b-81c6-9490-f22503a06534",
@@ -109,8 +101,8 @@
       "text": "Civil Rights Trail Book",
       "done": false,
       "tag": "",
-      "urgency": "Med",
-      "due": "2026-10-07T02:22:00.000-07:00"
+      "urgency": "High",
+      "due": "2026-10-24T02:22:00.000-07:00"
     },
     {
       "id": "3bde7566-e74b-80d3-8fa6-d97660bc19f1",
@@ -118,7 +110,7 @@
       "done": false,
       "tag": "Consulting by KCM",
       "urgency": "High",
-      "due": "2026-10-05"
+      "due": "2026-10-21"
     }
   ],
   "lawlit": [
